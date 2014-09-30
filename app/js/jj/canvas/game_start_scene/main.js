@@ -25,6 +25,16 @@
       this.addChild(text);
     };
 
+    this.addWelcomeMsg = function() {
+      var text = new PIXI.BitmapText(
+        "HIT PLAY \n TO \n START THE GAME",
+        { font: "16px font", align: "center" }
+      );
+      text.position.x = GO.getWidth() / 2 - text.width / 2;
+      text.position.y = text.height;
+      this.addChild(text);
+    };
+
     this.addJimmy = function() {
       jimmy = new Jimmy();
       jimmy.position.x = GO.getWidth() / 2 - jimmy.width / 2;
@@ -34,6 +44,7 @@
 
     this.addRamp();
     this.addPlayTxt();
+    this.addWelcomeMsg();
     this.addJimmy();
 
     this.update = function() {
