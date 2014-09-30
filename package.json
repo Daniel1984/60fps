@@ -1,0 +1,44 @@
+{
+  "name": "flappy_plane_hybrid",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "~1.6.6",
+    "config": "^1.1.0",
+    "cookie-parser": "~1.3.2",
+    "debug": "~1.0.4",
+    "ejs": "~0.8.5",
+    "express": "~4.8.6",
+    "express-session": "^1.8.1",
+    "less-middleware": "1.0.x",
+    "mongoose": "^3.8.9",
+    "mongoose-validator": "^0.2.2",
+    "morgan": "~1.2.3",
+    "multer": "^0.1.4",
+    "serve-favicon": "~2.0.1"
+  },
+  "engines": {
+    "node": "0.10.x",
+    "npm": "1.4.x"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.8",
+    "gulp-browserify": "^0.5.0",
+    "gulp-concat": "^2.4.0",
+    "gulp-if": "^1.2.4",
+    "gulp-jshint": "^1.8.4",
+    "gulp-less": "^1.3.5",
+    "gulp-plumber": "^0.6.5",
+    "gulp-uglify": "^1.0.1",
+    "gulp-util": "^3.0.1",
+    "gulp-zip": "^2.0.2",
+    "jshint-stylish": "^0.4.0",
+    "mithril": "^0.1.21",
+    "pixi.js": "^1.6.1",
+    "run-sequence": "^0.3.6",
+    "user-agent-parser": "^0.6.0"
+  }
+}
