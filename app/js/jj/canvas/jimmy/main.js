@@ -8,10 +8,10 @@
     var textures = [];
     var gravity = 0.2;
     var max_vx = 6;
-    var horizontal_drag = 0.05; // used to slow down horizontal movement
+    var horizontal_drag = 0.1; // used to slow down horizontal movement
     var bounce_factor_up = -1;
     var bounce_factor_down = -0.3;
-    var vx = 2;
+    var vx = 1;
     var vy = 1;
     var moving_left = false;
     var moving_right = false;
@@ -115,6 +115,5 @@
 
   Jimmy.prototype = Object.create(PIXI.MovieClip.prototype);
   Jimmy.prototype.constructor = Jimmy;
-
   module.exports = Jimmy;
 })();

@@ -44,7 +44,9 @@
 
   Main.prototype.initGameLoop = function() {
     requestAnimFrame(this.initGameLoop.bind(this));
-    game_stage.children.forEach(function(child) { child.update(); }); 
+    for(var i = 0; i < game_stage.children.length; i++) {
+      game_stage.children[i].update();
+    } 
     renderer.render(this);
   };
 
