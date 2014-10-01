@@ -7,28 +7,33 @@
 
   function StartScene() {
     PIXI.DisplayObjectContainer.call(this);
-    var ramp, jimmy;
+    var ramp, jimmy, _this = this;
 
     this.addRamp = function() {
-      var ramp_texture = PIXI.Texture.fromFrame('LandPiece_LightGreen.png');
+      var ramp_texture = PIXI.Texture.fromFrame('LandPiece_LightMulticolored.png');
       ramp = new Ramp(ramp_texture,
         GO.getWidth() / 2 - ramp_texture.width / 2,
-        GO.getHeight() - ramp_texture.height - 20
+        GO.getHeight() - ramp_texture.height * 2.5
       );
       this.addChild(ramp);
     };
 
     this.addPlayTxt = function() {
-      var text = new PIXI.BitmapText("Play", {font: "16px font"});
+      var text = new PIXI.BitmapText("PLAY", {font: "26px font"});
       text.x = GO.getWidth() / 2 - text.width / 2;
-      text.y = GO.getHeight() - ramp.height + 7;
+      text.y = GO.getHeight() - ramp.height;
+      text.setInteractive(true);
+      text.mousedown = text.touchstart = function() { 
+        _this.parent.parent.startGameScene();
+        _this.parent.removeChild(_this);
+      };
       this.addChild(text);
     };
 
     this.addWelcomeMsg = function() {
       var text = new PIXI.BitmapText(
-        "HIT PLAY \n TO \n START THE GAME",
-        { font: "16px font", align: "center" }
+        "WELCOME \nTO \nDANNY JUMP",
+        { font: "26px font", align: "center" }
       );
       text.position.x = GO.getWidth() / 2 - text.width / 2;
       text.position.y = text.height;
@@ -44,13 +49,19 @@
 
     this.addRamp();
     this.addPlayTxt();
-    this.addWelcomeMsg();
+    this.addWelcomeMsg(); 
     this.addJimmy();
 
     this.update = function() {
-      for(var i = 0; i < this.children.length; i++) {
-        if(typeof this.children[i].update === 'function') this.children[i].update();
-      } 
+      this.jimmyJump();
+    };
+
+    this.jimmyJump = function() {
+      jimmy.position.y += jimmy.vy;
+      jimmy.vy += jimmy.gravity;
+      if(jimmy.position.y >= ramp.position.y - jimmy.height + 10) {
+        jimmy.shortJump();
+      }
     };
   }
 
