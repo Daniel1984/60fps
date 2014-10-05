@@ -103,21 +103,24 @@
   var PIXI = require('pixi.js');
   var Jimmy = require('../jimmy/main');
   var ramps_manager = require('../ramps/manager');
-  var jimmy;
-
+  var jimmy, ramps;
+  var initial_jump = true;
+  
   function PlayScene() {
     PIXI.DisplayObjectContainer.call(this);
     
     this.addJimmy = function() {
       jimmy = new Jimmy();
       jimmy.position.x = GO.getWidth() / 2 - jimmy.width / 2;
-      jimmy.position.y = GO.getHeight() / 2 - jimmy.height;
+      jimmy.position.y = GO.getHeight();
       this.addChild(jimmy);
     };
     
     this.addRamps = function() {
-      var ramps = ramps_manager.getRamps({texture: 'LandPiece_DarkGreen.png', count: 20});
+      ramps = ramps_manager.getRamps({texture: 'LandPiece_DarkGreen.png', count: 5});
       for(var i = 0; i < ramps.length; i++) {
+        ramps[i].position.x = Math.random() * GO.getWidth();
+        ramps[i].position.y = Math.random() * GO.getHeight();
         this.addChild(ramps[i]);
       }
     };
@@ -128,9 +131,37 @@
     };
     
     this.update = function() {
+      this.updateChildren();
+      this.jimmyJump();
+      this.detectCollision();
+    };
+
+    this.updateChildren = function() {
       for(var i = 0; i < this.children.length; i++) {
         this.children[i].update();
       } 
+    };
+
+    this.detectCollision = function() {
+      for(var i = 0; i < ramps.length; i++) {
+        var vx = jimmy.getCx() - ramps[i].getCx();
+        var vy = jimmy.getCy() - ramps[i].getCy();
+        var combined_half_widths = jimmy.half_width + ramps[i].half_width;
+        var combined_half_heights = jimmy.half_height + ramps[i].half_height;
+        if(Math.abs(vx) < combined_half_widths) {
+          if(Math.abs(vy) < combined_half_heights) {
+            jimmy.jump();
+          }
+        }
+      }      
+    };
+
+    this.jimmyJump = function() {
+      jimmy.position.y += jimmy.vy;
+      jimmy.vy += jimmy.gravity;
+      if(jimmy.position.y >= GO.getHeight() - jimmy.height + 10) {
+        jimmy.jump();
+      }
     };
 
     this.addRamps();
@@ -190,7 +221,7 @@
     this.addJimmy = function() {
       jimmy = new Jimmy();
       jimmy.position.x = GO.getWidth() / 2 - jimmy.width / 2;
-      jimmy.position.y = GO.getHeight() / 2 - jimmy.height / 2;
+      jimmy.position.y = GO.getHeight();
       this.addChild(jimmy);
     };
 
@@ -232,7 +263,7 @@
     var bounce_factor_up = -1;
     var bounce_factor_down = -0.3;
     var vx = 1;
-    this.vy = 1;
+    this.vy = -5;
     var moving_left = false;
     var moving_right = false;
     var direction;
@@ -253,7 +284,17 @@
 
     PIXI.MovieClip.call(this, textures);
     this.gotoAndStop(1);
-    
+    this.half_width = this.width / 2;
+    this.half_height = this.height / 2;
+
+    this.getCx = function() {
+      return this.position.x + this.half_width;
+    };
+
+    this.getCy = function() {
+      return this.position.y + this.half_height;
+    };
+
     this.handleKeyDown = function(e) {
       switch(e.keyCode) {
         case 37:
@@ -299,49 +340,36 @@
     };
 
     this.update = function() {
-//      this.handleVertMove();
-//      this.handleHorMove();
-//      this.stayInBounds();
+      this.handleHorMove();
+      this.stayInBounds();
     };
 
-//    this.handleVertMove = function() {
-//      this.position.y += vy; 
-//      vy += gravity;
-//      if(this.position.y > GO.getHeight() - this.height) {
-//        this.position.y = Math.floor(GO.getHeight() - this.height);  
-//        vy *= bounce_factor_up;
-//      } else if(this.position.y < GO.getHeight() / 2 - this.height / 2) {
-//        this.position.y = Math.floor(GO.getHeight() / 2 - this.height / 2);
-//        vy *= bounce_factor_down;
-//      }
-//    };
+    this.handleHorMove = function() {
+      if(moving_right) {
+        this.position.x += vx;
+        if(vx < max_vx) vx += this.gravity;
+      } else if(moving_left) {
+        this.position.x -= vx;
+        if(vx < max_vx) vx += this.gravity;
+      } else if(!moving_right && !moving_left) {
+        if(vx > 1) {
+          vx -= horizontal_drag;
+          if(direction === 'left') {
+            this.position.x -= vx;
+          } else if(direction === 'right') {
+            this.position.x += vx; 
+          }
+        } 
+      }
+    };
 
-//    this.handleHorMove = function() {
-//      if(moving_right) {
-//        this.position.x += vx;
-//        if(vx < max_vx) vx += gravity;
-//      } else if(moving_left) {
-//        this.position.x -= vx;
-//        if(vx < max_vx) vx += gravity;
-//      } else if(!moving_right && !moving_left) {
-//        if(vx > 1) {
-//          vx -= horizontal_drag;
-//          if(direction === 'left') {
-//            this.position.x -= vx;
-//          } else if(direction === 'right') {
-//            this.position.x += vx; 
-//          }
-//        } 
-//      }
-//    };
-
-//    this.stayInBounds = function() {
-//      if(this.position.x < -this.width) {
-//        this.position.x = GO.getWidth();
-//      } else if(this.position.x > GO.getWidth()) {
-//        this.position.x = -this.width;
-//      }
-//    };
+    this.stayInBounds = function() {
+      if(this.position.x < -this.width) {
+        this.position.x = GO.getWidth();
+      } else if(this.position.x > GO.getWidth()) {
+        this.position.x = -this.width;
+      }
+    };
 
   }
 
@@ -391,6 +419,16 @@
     PIXI.Sprite.call(this, texture); 
     this.position.x = Math.floor(xPos);
     this.position.y = Math.floor(yPos);
+    this.half_width = this.width / 2;
+    this.half_height = this.height / 2;
+
+    this.getCx = function() {
+      return this.position.x + this.half_width;
+    };
+
+    this.getCy = function() {
+      return this.position.y + this.half_height;
+    };
 
     this.update = function() {
 

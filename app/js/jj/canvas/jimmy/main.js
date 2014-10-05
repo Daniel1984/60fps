@@ -12,7 +12,7 @@
     var bounce_factor_up = -1;
     var bounce_factor_down = -0.3;
     var vx = 1;
-    this.vy = 1;
+    this.vy = -5;
     var moving_left = false;
     var moving_right = false;
     var direction;
@@ -33,7 +33,17 @@
 
     PIXI.MovieClip.call(this, textures);
     this.gotoAndStop(1);
-    
+    this.half_width = this.width / 2;
+    this.half_height = this.height / 2;
+
+    this.getCx = function() {
+      return this.position.x + this.half_width;
+    };
+
+    this.getCy = function() {
+      return this.position.y + this.half_height;
+    };
+
     this.handleKeyDown = function(e) {
       switch(e.keyCode) {
         case 37:
@@ -79,49 +89,36 @@
     };
 
     this.update = function() {
-//      this.handleVertMove();
-//      this.handleHorMove();
-//      this.stayInBounds();
+      this.handleHorMove();
+      this.stayInBounds();
     };
 
-//    this.handleVertMove = function() {
-//      this.position.y += vy; 
-//      vy += gravity;
-//      if(this.position.y > GO.getHeight() - this.height) {
-//        this.position.y = Math.floor(GO.getHeight() - this.height);  
-//        vy *= bounce_factor_up;
-//      } else if(this.position.y < GO.getHeight() / 2 - this.height / 2) {
-//        this.position.y = Math.floor(GO.getHeight() / 2 - this.height / 2);
-//        vy *= bounce_factor_down;
-//      }
-//    };
+    this.handleHorMove = function() {
+      if(moving_right) {
+        this.position.x += vx;
+        if(vx < max_vx) vx += this.gravity;
+      } else if(moving_left) {
+        this.position.x -= vx;
+        if(vx < max_vx) vx += this.gravity;
+      } else if(!moving_right && !moving_left) {
+        if(vx > 1) {
+          vx -= horizontal_drag;
+          if(direction === 'left') {
+            this.position.x -= vx;
+          } else if(direction === 'right') {
+            this.position.x += vx; 
+          }
+        } 
+      }
+    };
 
-//    this.handleHorMove = function() {
-//      if(moving_right) {
-//        this.position.x += vx;
-//        if(vx < max_vx) vx += gravity;
-//      } else if(moving_left) {
-//        this.position.x -= vx;
-//        if(vx < max_vx) vx += gravity;
-//      } else if(!moving_right && !moving_left) {
-//        if(vx > 1) {
-//          vx -= horizontal_drag;
-//          if(direction === 'left') {
-//            this.position.x -= vx;
-//          } else if(direction === 'right') {
-//            this.position.x += vx; 
-//          }
-//        } 
-//      }
-//    };
-
-//    this.stayInBounds = function() {
-//      if(this.position.x < -this.width) {
-//        this.position.x = GO.getWidth();
-//      } else if(this.position.x > GO.getWidth()) {
-//        this.position.x = -this.width;
-//      }
-//    };
+    this.stayInBounds = function() {
+      if(this.position.x < -this.width) {
+        this.position.x = GO.getWidth();
+      } else if(this.position.x > GO.getWidth()) {
+        this.position.x = -this.width;
+      }
+    };
 
   }
 

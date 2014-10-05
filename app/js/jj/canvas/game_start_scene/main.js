@@ -43,7 +43,7 @@
     this.addJimmy = function() {
       jimmy = new Jimmy();
       jimmy.position.x = GO.getWidth() / 2 - jimmy.width / 2;
-      jimmy.position.y = GO.getHeight() / 2 - jimmy.height / 2;
+      jimmy.position.y = GO.getHeight();
       this.addChild(jimmy);
     };
 
