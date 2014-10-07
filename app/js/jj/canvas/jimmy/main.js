@@ -35,13 +35,21 @@
     this.gotoAndStop(1);
     this.half_width = this.width / 2;
     this.half_height = this.height / 2;
-
+    //get central x pos
     this.getCx = function() {
       return this.position.x + this.half_width;
     };
-
+    //get central y pos
     this.getCy = function() {
       return this.position.y + this.half_height;
+    };
+    //het full y pos including height
+    this.getFy = function() {
+      return this.position.y + this.height;
+    };
+
+    this.getHy = function() {
+      return this.position.y + this.height / 2;
     };
 
     this.handleKeyDown = function(e) {
@@ -77,7 +85,7 @@
     };
 
     this.jump = function() {
-      this.vy = -8;
+      this.vy = -7;
     };
 
     this.shortJump = function() {
