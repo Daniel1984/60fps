@@ -85,7 +85,7 @@
     };
 
     this.jump = function() {
-      this.vy = -7;
+      this.vy = -8;
     };
 
     this.shortJump = function() {
