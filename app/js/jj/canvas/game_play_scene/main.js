@@ -4,7 +4,7 @@
   var PIXI = require('pixi.js');
   var Jimmy = require('../jimmy/main');
   var Ramp = require('../ramps/main');
-  var jimmy, ramps_count = 6;
+  var jimmy, ramps_count = 10;
   var initial_jump = true;
   
   function PlayScene() {
@@ -16,13 +16,13 @@
       jimmy.position.x = GO.getWidth() / 2 - jimmy.width / 2;
       jimmy.position.y = GO.getHeight();
       this.addChild(jimmy);
+      jimmy.jump();
     };
     
     this.addRamps = function() { 
       for(var i = 0; i < ramps_count; i++) { 
         var ramp = new Ramp();
         ramp.position.y = GO.getHeight() - (ramp.height * 2) * i;
-        console.log(ramp.position.y);
         this.addChild(ramp);
       }
     };
@@ -34,8 +34,7 @@
     
     this.update = function() {
       this.updateChildren();
-      this.moveJimmy(); 
-      this.bounceFromGroundJimmy();
+      this.moveRamps(); 
       this.detectCollision();
     };
 
@@ -45,48 +44,43 @@
       } 
     };
 
-    this.moveJimmy = function() {
-      if(jimmy.position.y >= (GO.getHeight() / 2) - jimmy.half_height) {
-        jimmy.position.y += jimmy.vy;
-	      jimmy.vy += jimmy.gravity;
-      } else {
-        jimmy.vy += jimmy.gravity;
-        this.children.forEach(function(p, i) {
-          if(!(p instanceof Ramp)) return;
-	        if(jimmy.vy < 0) p.position.y -= jimmy.vy;
-	        if(p.position.y > GO.getHeight()) {
-	          p.position.y = p.position.y - (GO.getHeight() + (Math.random() + 100 - 20) + 20);
-            p.position.x = Math.random() * (GO.getWidth() - p.width);
-	        }
-        }); 
-	      if(jimmy.vy >= 0) {
-          jimmy.position.y += jimmy.vy;
-	        jimmy.vy += jimmy.gravity;
-	      }
+    this.moveRamps = function() {
+      if(jimmy.position.y <= (GO.getHeight() / 2) - jimmy.half_height) {
+        this.moveRampsDown();
+      } else if(jimmy.position.y > GO.getHeight()) {
+        this.moveRampsUp();
+      }
+    };
+
+    this.moveRampsDown = function() {
+      for(var i = 0; i < this.children.length; i++) {
+        if(!(this.children[i] instanceof Ramp)) return;
+	      if(jimmy.vy < 0) this.children[i].position.y -= jimmy.vy; 
+      }
+    };
+    
+    this.moveRampsUp = function() {
+      for(var i = 0; i < this.children.length; i++) {
+        if(!(this.children[i] instanceof Ramp)) return;
+	      this.children[i].position.y -= jimmy.vy; 
       }
     };
 
     this.detectCollision = function() {
-      this.children.forEach(function(c) {
-        if(!(c instanceof Ramp)) return;
-        var vx = jimmy.getCx() - c.getCx();
-        var vy = jimmy.getCy() - c.getCy();
+      for(var i = 0; i < this.children.length; i++) {
+        if(!(this.children[i] instanceof Ramp)) return;
+        var vx = jimmy.getCx() - this.children[i].getCx();
+        var vy = jimmy.getCy() - this.children[i].getCy();
         // chw and chh === combined half widths and heights of jimmy and ramp
-        var chw = jimmy.half_width + c.half_width;
-        var chh = jimmy.half_height + c.half_height;
+        var chw = jimmy.half_width + this.children[i].half_width;
+        var chh = jimmy.half_height + this.children[i].half_height;
         if(Math.abs(vx) < chw) {
           if(Math.abs(vy) < chh) {
-            if(jimmy.getFy() - 5 > c.position.y && jimmy.getFy() - 5 <= c.position.y + 10) {
+            if(jimmy.getFy() - 5 > this.children[i].position.y && jimmy.getFy() - 5 <= this.children[i].position.y + 10) {
               if(jimmy.vy > 0) jimmy.jump();
             }
           }
         }
-      });
-    };
-
-    this.bounceFromGroundJimmy = function() {
-      if(jimmy.position.y >= GO.getHeight() - jimmy.height + 10) {
-        jimmy.jump();
       }
     };
 

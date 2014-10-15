@@ -26,7 +26,11 @@
     };
 
     this.update = function() {
-
+      // repositioning ramps when below bottom of screen
+	    if(this.position.y > GO.getHeight()) {
+	      this.position.y = this.position.y - (GO.getHeight() + (Math.random() + 100 - 20) + 20);
+        this.position.x = Math.random() * (GO.getWidth() - this.width);
+	    }
     };
  }
 

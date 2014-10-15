@@ -3,19 +3,18 @@
 
   var PIXI = require('pixi.js');
 
-  function Jimmy() {
-    var _this = this;
-    var textures = [];
+  function Jimmy() { 
+    this.vy = -5;
     this.gravity = 0.2;
+
+    var _this = this;
     var max_vx = 6;
     var horizontal_drag = 0.1; // used to slow down horizontal movement
-    var bounce_factor_up = -1;
-    var bounce_factor_down = -0.3;
-    var vx = 1;
-    this.vy = -5;
+    var vx = 1; 
     var moving_left = false;
     var moving_right = false;
     var direction;
+    var textures = [];
     var frames = [
       'CharacterLeft_Jump.png',
       'CharacterLeft_Standing.png',
@@ -85,7 +84,7 @@
     };
 
     this.jump = function() {
-      this.vy = -8;
+      this.vy = -10;
     };
 
     this.shortJump = function() {
@@ -99,6 +98,7 @@
     this.update = function() {
       this.handleHorMove();
       this.stayInBounds();
+      this.moveJimmy();
     };
 
     this.handleHorMove = function() {
@@ -126,6 +126,15 @@
       } else if(this.position.x > GO.getWidth()) {
         this.position.x = -this.width;
       }
+    };
+
+    this.moveJimmy = function() {
+      if(this.position.y >= (GO.getHeight() / 2) - this.half_height) {
+        this.position.y += this.vy;
+      } else if(this.vy >= 0) {
+        this.position.y += this.vy;
+      }
+	    this.vy += this.gravity;
     };
 
   }
