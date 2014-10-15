@@ -4,8 +4,8 @@
   var PIXI = require('pixi.js');
   var Jimmy = require('../jimmy/main');
   var Ramp = require('../ramps/main');
-  var jimmy, ramps_count = 10;
-  var initial_jump = true;
+  var GameOver = require('../game_over_scene/main');
+  var jimmy, game_over, ramps_count = 10;
   
   function PlayScene() {
     PIXI.DisplayObjectContainer.call(this);
@@ -26,6 +26,12 @@
         this.addChild(ramp);
       }
     };
+
+    this.addGameOver = function() {
+      game_over = new GameOver();
+      game_over.position.y = GO.getHeight();
+      this.addChild(game_over);
+    };
       
     this.setupInteraction = function() {
       document.addEventListener('keydown', jimmy.handleKeyDown);
@@ -36,6 +42,7 @@
       this.updateChildren();
       this.moveRamps(); 
       this.detectCollision();
+      this.detectGameOver();
     };
 
     this.updateChildren = function() {
@@ -84,9 +91,16 @@
       }
     };
 
+    this.detectGameOver = function() {
+      if(jimmy.position.y > GO.getHeight() * 2) {
+        if(game_over.position.y > 0) game_over.position.y -= jimmy.vy;
+      }
+    };
+
     this.addRamps();
     this.addJimmy();
     this.setupInteraction();
+    this.addGameOver();
   }
 
   PlayScene.prototype = Object.create(PIXI.DisplayObjectContainer.prototype);

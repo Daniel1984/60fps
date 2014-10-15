@@ -134,7 +134,7 @@
       } else if(this.vy >= 0) {
         this.position.y += this.vy;
       }
-	    this.vy += this.gravity;
+	    if(this.position.y < GO.getHeight() * 2) this.vy += this.gravity;
     };
 
   }
