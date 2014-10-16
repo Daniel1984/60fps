@@ -120,7 +120,7 @@
       text.y = GO.getHeight() - GO.getHeight() / 3;
       text.setInteractive(true);
       text.mousedown = text.touchstart = function() { 
-        this.position.y = GO.getHeight();
+        _this.parent.restartGame();
       };
       this.addChild(text);
     };
@@ -146,12 +146,12 @@
   var Jimmy = require('../jimmy/main');
   var Ramp = require('../ramps/main');
   var GameOver = require('../game_over_scene/main');
-  var jimmy, game_over, ramps_count = 10;
+  var jimmy, game_over, ramps_count = 7;
   
   function PlayScene() {
     PIXI.DisplayObjectContainer.call(this);
     var _this = this;
-
+    window.playscene = this;
     this.addJimmy = function() {
       jimmy = new Jimmy();
       jimmy.position.x = GO.getWidth() / 2 - jimmy.width / 2;
@@ -174,9 +174,14 @@
       this.addChild(game_over);
     };
       
-    this.setupInteraction = function() {
+    this.addListeners = function() {
       document.addEventListener('keydown', jimmy.handleKeyDown);
       document.addEventListener('keyup', jimmy.handleKeyUp);
+    };
+
+    this.removeListeners = function() {
+      document.removeEventListener('keydown', jimmy.handleKeyDown);
+      document.removeEventListener('keyup', jimmy.handleKeyUp);
     };
     
     this.update = function() {
@@ -238,10 +243,20 @@
       }
     };
 
-    this.addRamps();
-    this.addJimmy();
-    this.setupInteraction();
-    this.addGameOver();
+    this.restartGame = function() {
+      this.children = [];
+      this.removeListeners();
+      this.addAssets();
+    };
+
+    this.addAssets = function() {
+      this.addRamps();
+      this.addJimmy();
+      this.addListeners();
+      this.addGameOver();
+    };
+
+    this.addAssets();
   }
 
   PlayScene.prototype = Object.create(PIXI.DisplayObjectContainer.prototype);

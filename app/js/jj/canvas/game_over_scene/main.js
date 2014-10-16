@@ -21,7 +21,7 @@
       text.y = GO.getHeight() - GO.getHeight() / 3;
       text.setInteractive(true);
       text.mousedown = text.touchstart = function() { 
-        this.position.y = GO.getHeight();
+        _this.parent.restartGame();
       };
       this.addChild(text);
     };
