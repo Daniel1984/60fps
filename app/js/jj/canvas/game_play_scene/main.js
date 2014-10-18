@@ -5,18 +5,21 @@
   var Jimmy = require('../jimmy/main');
   var Ramp = require('../ramps/main');
   var GameOver = require('../game_over_scene/main');
-  var jimmy, game_over, ramps_count = 7;
+  var Score = require('../score/main');
+  var jimmy, game_over, ramps_count, score;
   
   function PlayScene() {
     PIXI.DisplayObjectContainer.call(this);
+
     var _this = this;
-    window.playscene = this;
+    var ramp_height = new Ramp().height;
+    ramps_count = Math.ceil(GO.getHeight() / (ramp_height * 2));
+
     this.addJimmy = function() {
       jimmy = new Jimmy();
       jimmy.position.x = GO.getWidth() / 2 - jimmy.width / 2;
       jimmy.position.y = GO.getHeight();
       this.addChild(jimmy);
-      jimmy.jump();
     };
     
     this.addRamps = function() { 
@@ -32,6 +35,11 @@
       game_over.position.y = GO.getHeight();
       this.addChild(game_over);
     };
+
+    this.addScore = function() {
+      score = new Score();
+      this.addChild(score);
+    };
       
     this.addListeners = function() {
       document.addEventListener('keydown', jimmy.handleKeyDown);
@@ -43,11 +51,11 @@
       document.removeEventListener('keyup', jimmy.handleKeyUp);
     };
     
-    this.update = function() {
-      this.updateChildren();
-      this.moveRamps(); 
+    this.update = function() { 
       this.detectCollision();
       this.detectGameOver();
+      this.moveObjects();
+      this.updateChildren(); 
     };
 
     this.updateChildren = function() {
@@ -56,31 +64,33 @@
       } 
     };
 
-    this.moveRamps = function() {
+    this.moveObjects = function() {
       if(jimmy.position.y <= (GO.getHeight() / 2) - jimmy.half_height) {
         this.moveRampsDown();
       } else if(jimmy.position.y > GO.getHeight()) {
         this.moveRampsUp();
+        this.moveScoreUp();
       }
     };
 
     this.moveRampsDown = function() {
-      for(var i = 0; i < this.children.length; i++) {
-        if(!(this.children[i] instanceof Ramp)) return;
+      for(var i = 0; i < ramps_count; i++) {
 	      if(jimmy.vy < 0) this.children[i].position.y -= jimmy.vy; 
       }
     };
     
     this.moveRampsUp = function() {
-      for(var i = 0; i < this.children.length; i++) {
-        if(!(this.children[i] instanceof Ramp)) return;
+      for(var i = 0; i < ramps_count; i++) {
 	      this.children[i].position.y -= jimmy.vy; 
       }
     };
 
+    this.moveScoreUp = function() {
+      score.position.y -= jimmy.vy;
+    };
+
     this.detectCollision = function() {
-      for(var i = 0; i < this.children.length; i++) {
-        if(!(this.children[i] instanceof Ramp)) return;
+      for(var i = 0; i < ramps_count; i++) {
         var vx = jimmy.getCx() - this.children[i].getCx();
         var vy = jimmy.getCy() - this.children[i].getCy();
         // chw and chh === combined half widths and heights of jimmy and ramp
@@ -103,16 +113,22 @@
     };
 
     this.restartGame = function() {
+      this.resetScore();
       this.children = [];
       this.removeListeners();
       this.addAssets();
     };
 
-    this.addAssets = function() {
+    this.resetScore = function() { 
+      GO.SCORE = 0;
+    };
+
+    this.addAssets = function() { 
       this.addRamps();
       this.addJimmy();
       this.addListeners();
       this.addGameOver();
+      this.addScore(); 
     };
 
     this.addAssets();

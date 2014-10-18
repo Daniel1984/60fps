@@ -8,9 +8,11 @@
       [],
       [],
       [],
+      [],
       []
     ];
 
+    var vx = Math.random() * (1 - 0.2) + 0.2;
     var texture = PIXI.Texture.fromFrame('LandPiece_DarkGreen.png');
     PIXI.Sprite.call(this, texture); 
     this.position.x = Math.random() * (GO.getWidth() - this.width);
@@ -26,12 +28,33 @@
     };
 
     this.update = function() {
-      // repositioning ramps when below bottom of screen
 	    if(this.position.y > GO.getHeight()) {
-	      this.position.y = this.position.y - (GO.getHeight() + (Math.random() + 100 - 20) + 20);
-        this.position.x = Math.random() * (GO.getWidth() - this.width);
+        this.changeTexture();
+        this.repositionRamp();
+        this.addScore(); 
 	    }
+      this.horFloat();
     };
+
+    this.changeTexture = function() {
+
+    };
+
+    this.repositionRamp = function() {
+	    this.position.y = this.position.y - (GO.getHeight() + (Math.random() + 100 - 20) + 20);
+      this.position.x = Math.random() * (GO.getWidth() - this.width);
+    };
+
+    this.addScore = function() {
+      GO.SCORE += 1;
+      if(GO.SCORE > GO.TOP_SCORE) GO.TOP_SCORE = GO.SCORE;
+    };
+
+    this.horFloat = function() {
+      if(this.position.x <= 0 || this.position.x >= GO.getWidth() - this.width) vx *= -1;
+      this.position.x += vx;
+    };
+
  }
 
   Ramp.prototype = Object.create(PIXI.Sprite.prototype);

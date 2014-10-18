@@ -4,7 +4,7 @@
   var PIXI = require('pixi.js');
 
   function Jimmy() { 
-    this.vy = -5;
+    this.vy = -10;
     this.gravity = 0.2;
 
     var _this = this;

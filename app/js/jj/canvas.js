@@ -6,6 +6,8 @@
 
   window.GO = {
     GAME_OVER: false,
+    SCORE: 0,
+    TOP_SCORE: 0,
     DEVICE: parser(navigator.userAgent).device.type, 
     IS_NATIVE: CocoonJS.App.nativeExtensionObjectAvailable,
     WW: window.innerWidth,
