@@ -6,12 +6,15 @@
   var Ramp = require('../ramps/main');
   var GameOver = require('../game_over_scene/main');
   var Score = require('../score/main');
+  var Sound = require('../../../core/sound');
   var jimmy, game_over, ramps_count, score;
   
   function PlayScene() {
     PIXI.DisplayObjectContainer.call(this);
 
     var _this = this;
+    var playing_fall_sound = false;
+    var fall_sound = new Sound('fall_impact');
     var ramp_height = new Ramp().height;
     ramps_count = Math.ceil(GO.getHeight() / (ramp_height * 2));
 
@@ -70,6 +73,8 @@
       } else if(jimmy.position.y > GO.getHeight()) {
         this.moveRampsUp();
         this.moveScoreUp();
+        if(!playing_fall_sound) fall_sound.play();
+        playing_fall_sound = true;
       }
     };
 
@@ -117,6 +122,7 @@
       this.children = [];
       this.removeListeners();
       this.addAssets();
+      playing_fall_sound = false;
     };
 
     this.resetScore = function() { 

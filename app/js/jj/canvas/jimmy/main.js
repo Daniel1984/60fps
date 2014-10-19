@@ -2,8 +2,10 @@
   'use strict';
 
   var PIXI = require('pixi.js');
+  var Sound = require('../../../core/sound');
 
   function Jimmy() { 
+    var jump_sound = new Sound('jumping_teon');
     this.vy = -10;
     this.gravity = 0.2;
 
@@ -84,6 +86,7 @@
     };
 
     this.jump = function() {
+      jump_sound.play();
       this.vy = -10;
     };
 
