@@ -11,7 +11,8 @@
       [],
       []
     ];
-
+    // use movie clip instead and can use goToAndStop to change state of ramp!
+    // also use pixi's currentFrame to know what state is ramp at
     var vx = Math.random() * (1 - 0.2) + 0.2;
     var texture = PIXI.Texture.fromFrame('LandPiece_DarkGreen.png');
     PIXI.Sprite.call(this, texture); 
@@ -28,7 +29,7 @@
     };
 
     this.update = function() {
-	    if(this.position.y > GO.getHeight()) {
+	    if(this.position.y > GO.getHeight()) { 
         this.changeTexture();
         this.repositionRamp();
         this.addScore(); 

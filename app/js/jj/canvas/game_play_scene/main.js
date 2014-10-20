@@ -14,7 +14,7 @@
 
     var _this = this;
     var playing_fall_sound = false;
-    var fall_sound = new Sound('fall_impact');
+    var fall_sound = new Sound('game_over');
     var ramp_height = new Ramp().height;
     ramps_count = Math.ceil(GO.getHeight() / (ramp_height * 2));
 

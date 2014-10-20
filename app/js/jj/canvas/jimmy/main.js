@@ -5,7 +5,7 @@
   var Sound = require('../../../core/sound');
 
   function Jimmy() { 
-    var jump_sound = new Sound('jumping_teon');
+    var jump_sound = new Sound('soft_jump');
     this.vy = -10;
     this.gravity = 0.2;
 

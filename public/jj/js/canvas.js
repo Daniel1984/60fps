@@ -188,7 +188,7 @@
 
     var _this = this;
     var playing_fall_sound = false;
-    var fall_sound = new Sound('fall_impact');
+    var fall_sound = new Sound('game_over');
     var ramp_height = new Ramp().height;
     ramps_count = Math.ceil(GO.getHeight() / (ramp_height * 2));
 
@@ -401,7 +401,7 @@
   var Sound = require('../../../core/sound');
 
   function Jimmy() { 
-    var jump_sound = new Sound('jumping_teon');
+    var jump_sound = new Sound('soft_jump');
     this.vy = -10;
     this.gravity = 0.2;
 
@@ -557,7 +557,8 @@
       [],
       []
     ];
-
+    // use movie clip instead and can use goToAndStop to change state of ramp!
+    // also use pixi's currentFrame to know what state is ramp at
     var vx = Math.random() * (1 - 0.2) + 0.2;
     var texture = PIXI.Texture.fromFrame('LandPiece_DarkGreen.png');
     PIXI.Sprite.call(this, texture); 
@@ -574,7 +575,7 @@
     };
 
     this.update = function() {
-	    if(this.position.y > GO.getHeight()) {
+	    if(this.position.y > GO.getHeight()) { 
         this.changeTexture();
         this.repositionRamp();
         this.addScore(); 
