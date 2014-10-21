@@ -101,10 +101,11 @@
         // chw and chh === combined half widths and heights of jimmy and ramp
         var chw = jimmy.half_width + this.children[i].half_width;
         var chh = jimmy.half_height + this.children[i].half_height;
-        if(Math.abs(vx) < chw) {
-          if(Math.abs(vy) < chh) {
-            if(jimmy.getFy() - 5 > this.children[i].position.y && jimmy.getFy() - 5 <= this.children[i].position.y + 10) {
-              if(jimmy.vy > 0) jimmy.jump();
+        if(Math.abs(vx) < chw && Math.abs(vy) < chh) {
+          if(jimmy.getFy() - 5 > this.children[i].position.y && jimmy.getFy() - 5 <= this.children[i].position.y + 10) {            
+            if(jimmy.vy > 0) {
+              console.log(this.children[i].brokenRampHit());
+              jimmy.jump();
             }
           }
         }

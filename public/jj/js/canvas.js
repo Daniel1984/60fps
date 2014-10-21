@@ -275,10 +275,11 @@
         // chw and chh === combined half widths and heights of jimmy and ramp
         var chw = jimmy.half_width + this.children[i].half_width;
         var chh = jimmy.half_height + this.children[i].half_height;
-        if(Math.abs(vx) < chw) {
-          if(Math.abs(vy) < chh) {
-            if(jimmy.getFy() - 5 > this.children[i].position.y && jimmy.getFy() - 5 <= this.children[i].position.y + 10) {
-              if(jimmy.vy > 0) jimmy.jump();
+        if(Math.abs(vx) < chw && Math.abs(vy) < chh) {
+          if(jimmy.getFy() - 5 > this.children[i].position.y && jimmy.getFy() - 5 <= this.children[i].position.y + 10) {            
+            if(jimmy.vy > 0) {
+              console.log(this.children[i].brokenRampHit());
+              jimmy.jump();
             }
           }
         }
@@ -550,18 +551,29 @@
   var PIXI = require('pixi.js');
 
   function Ramp(opt) {
-    var types = [
-      [],
-      [],
-      [],
-      [],
-      []
+    this.vx = undefined;
+    this.healthy_ramps = [0,1,2,3,4];
+    this.broken_ramps = [5,6,7,8,9];
+    this.textures = [];
+    this.frames = [
+      'LandPiece_DarkBlue.png',
+      'LandPiece_DarkGreen.png',
+      'LandPiece_DarkMulticolored.png',
+      'LandPiece_DarkPing.png',
+      'LandPiece_LightGray.png',
+      //below broken ramps
+      'BrokenLandPiece_Blue.png',
+      'BrokenLandPiece_Gray.png',
+      'BrokenLandPiece_Green.png',
+      'BrokenLandPiece_Multicolored.png',
+      'BrokenLandPiece_Pink.png'
     ];
-    // use movie clip instead and can use goToAndStop to change state of ramp!
-    // also use pixi's currentFrame to know what state is ramp at
-    var vx = Math.random() * (1 - 0.2) + 0.2;
-    var texture = PIXI.Texture.fromFrame('LandPiece_DarkGreen.png');
-    PIXI.Sprite.call(this, texture); 
+
+    for(var i = 0; i < this.frames.length; i++) {
+      this.textures.push(PIXI.Texture.fromFrame(this.frames[i]));
+    }
+
+    PIXI.MovieClip.call(this, this.textures);
     this.position.x = Math.random() * (GO.getWidth() - this.width);
     this.half_width = this.width / 2;
     this.half_height = this.height / 2;
@@ -574,17 +586,24 @@
       return this.position.y + this.half_height;
     };
 
+    this.randomizeVx = function() {
+      this.vx = Math.random() * 3 - 1.5;
+      //* (max - min) + min;
+    };
+
     this.update = function() {
 	    if(this.position.y > GO.getHeight()) { 
         this.changeTexture();
+        this.randomizeVx();
         this.repositionRamp();
         this.addScore(); 
+        this.randomizeVx();
 	    }
       this.horFloat();
     };
 
     this.changeTexture = function() {
-
+     this.gotoAndStop(Math.floor(Math.random() * this.frames.length));
     };
 
     this.repositionRamp = function() {
@@ -597,14 +616,21 @@
       if(GO.SCORE > GO.TOP_SCORE) GO.TOP_SCORE = GO.SCORE;
     };
 
-    this.horFloat = function() {
-      if(this.position.x <= 0 || this.position.x >= GO.getWidth() - this.width) vx *= -1;
-      this.position.x += vx;
+    this.brokenRampHit = function() {
+      return this.broken_ramps.indexOf(this.currentFrame) === -1 ? 'false' : 'true';
     };
+
+    this.horFloat = function() {
+      if(this.position.x <= 0 || this.position.x >= GO.getWidth() - this.width) this.vx *= -1;
+      this.position.x += this.vx;
+    };
+
+    this.changeTexture();
+    this.randomizeVx();
 
  }
 
-  Ramp.prototype = Object.create(PIXI.Sprite.prototype);
+  Ramp.prototype = Object.create(PIXI.MovieClip.prototype);
   Ramp.prototype.constructor = Ramp;
   module.exports = Ramp;
 
