@@ -13,8 +13,8 @@
     PIXI.DisplayObjectContainer.call(this);
 
     var _this = this;
-    var playing_fall_sound = false;
-    var fall_sound = new Sound('game_over');
+    var play_game_over_sound = false;
+    var game_over_sound = new Sound('game_over');
     var ramp_height = new Ramp().height;
     ramps_count = Math.ceil(GO.getHeight() / (ramp_height * 2));
 
@@ -73,8 +73,8 @@
       } else if(jimmy.position.y > GO.getHeight()) {
         this.moveRampsUp();
         this.moveScoreUp();
-        if(!playing_fall_sound) fall_sound.play();
-        playing_fall_sound = true;
+        if(!play_game_over_sound) game_over_sound.play();
+        play_game_over_sound = true;
       }
     };
 
@@ -102,14 +102,21 @@
         var chw = jimmy.half_width + this.children[i].half_width;
         var chh = jimmy.half_height + this.children[i].half_height;
         if(Math.abs(vx) < chw && Math.abs(vy) < chh) {
-          if(jimmy.getFy() - 5 > this.children[i].position.y && jimmy.getFy() - 5 <= this.children[i].position.y + 10) {            
+          if(jimmy.getFy() - 4 >= this.children[i].position.y && jimmy.getFy() - 4 <= this.children[i].position.y + 10) {            
             if(jimmy.vy > 0) {
-              console.log(this.children[i].brokenRampHit());
-              jimmy.jump();
+              if(this.children[i].brokenRampHit()) {
+                this.breakRamp(this.children[i]);
+              } else {
+                jimmy.jump();
+              }
             }
           }
         }
       }
+    };
+
+    this.breakRamp = function(el) {
+      el.alpha = 0;
     };
 
     this.detectGameOver = function() {
@@ -123,7 +130,7 @@
       this.children = [];
       this.removeListeners();
       this.addAssets();
-      playing_fall_sound = false;
+      play_game_over_sound = false;
     };
 
     this.resetScore = function() { 

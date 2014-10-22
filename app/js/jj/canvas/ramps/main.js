@@ -70,7 +70,7 @@
     };
 
     this.brokenRampHit = function() {
-      return this.broken_ramps.indexOf(this.currentFrame) === -1 ? 'false' : 'true';
+      return this.broken_ramps.indexOf(this.currentFrame) === -1 ? false : true;
     };
 
     this.horFloat = function() {
