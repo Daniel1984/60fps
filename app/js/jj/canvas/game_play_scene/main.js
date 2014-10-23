@@ -16,6 +16,7 @@
     var _this = this;
     var play_game_over_sound = false;
     var game_over_sound = new Sound('game_over');
+    var break_sound = new Sound('break');
     var ramp_height = new Ramp().height;
     ramps_count = Math.ceil(GO.getHeight() / (ramp_height * 2));
 
@@ -118,6 +119,7 @@
 
     this.breakRamp = function(el) {
       if(el.alpha === 0) return; // if ramp olready broken do nothing
+      break_sound.play();
       el.alpha = 0;
       var two_part_ramp = new TwoPartRamp(el.currentFrame);
       two_part_ramp.position.y = el.position.y;
