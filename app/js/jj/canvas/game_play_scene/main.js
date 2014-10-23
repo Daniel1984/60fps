@@ -6,6 +6,7 @@
   var Ramp = require('../ramps/main');
   var GameOver = require('../game_over_scene/main');
   var Score = require('../score/main');
+  var TwoPartRamp = require('../two_part_ramps/main');
   var Sound = require('../../../core/sound');
   var jimmy, game_over, ramps_count, score;
   
@@ -58,7 +59,7 @@
       this.detectCollision();
       this.detectGameOver();
       this.moveObjects();
-      this.updateChildren(); 
+      this.updateChildren();
     };
 
     this.updateChildren = function() {
@@ -116,7 +117,12 @@
     };
 
     this.breakRamp = function(el) {
+      if(el.alpha === 0) return; // if ramp olready broken do nothing
       el.alpha = 0;
+      var two_part_ramp = new TwoPartRamp(el.currentFrame);
+      two_part_ramp.position.y = el.position.y;
+      two_part_ramp.position.x = el.position.x;
+      this.addChild(two_part_ramp);
     };
 
     this.detectGameOver = function() {

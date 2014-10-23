@@ -89,68 +89,6 @@
 },{}],2:[function(require,module,exports){
 (function() {
   'use strict';
-  
-  var parser = require('user-agent-parser');
-
-  window.FP = { 
-    GAME_OVER: true,
-    GAME_SPEED_INCREASE: 0.1,
-    GAME_MOBILE_SPEED_INCREASE: 0.1,
-    GAME_SCORE: 0,
-    GAME_HIGH_SCORE: 0,
-    CLOUDS_SPEED: 2,
-    GROUND_SPEED: 6,
-    ROCKS_SPEED: 5,
-    NUMBER_OF_ROCKS: 4,
-    ROCK_DISTANCE: Math.floor(window.innerWidth / 4),
-    VERTICAL_GAP_BETWEEN_ROCKS: 50,
-    PLANE_TAKE_OFF_SPEED: 6,
-    PLANE_LANDING_SPEED: 8,
-    PLANE_ROTATE_UP_SPEED: 0.1,
-    PLANE_ROTATE_DOWN_SPEED: 0.1,
-    PLANE_ROTATE_DOWN_MAX: 0.7,
-    PLANE_ROTATE_UP_MAX: -0.4,
-    PLANE_FALLING: true,
-    PLANE_MAX_LIFT: 90,
-    PLANE_OBSTICLES: [],
-    PLANE_PATH: 'app/img/Planes/',
-    LANDSCAPE_PATH: 'app/img/landscape/',
-    CLOUDS_PATH: './img/spritesheets/',
-    LETTERS_PATH: 'app/img/Letters/',
-    NUMBERS_PATH: 'app/img/Numbers/',
-    UI_PATH: 'app/img/ui/',
-    DEVICE: parser(navigator.userAgent).device.type, 
-    IS_NATIVE: CocoonJS.App.nativeExtensionObjectAvailable,
-    WW: window.innerWidth,
-    WH: window.innerHeight,
-  
-    isMobile: function() {
-      if(this.DEVICE && this.DEVICE === 'mobile') return true;
-      return false;
-    },
-  
-    getWidth: function() {
-      if(this.isMobile() || this.IS_NATIVE || window.innerWidth < 640) return window.innerWidth;
-      return 720;
-    },
-  
-    getHeight: function() {
-      if(this.isMobile() || this.IS_NATIVE || window.innerHeight < 480) return window.innerHeight;
-      return 640;
-    }
-  };
-
-  var GameEngine = require('./fp_canvas/engine');
-
-  window.onload = function() {
-    new GameEngine();
-  };
-
-})();
-
-},{"./fp_canvas/engine":8,"user-agent-parser":23}],3:[function(require,module,exports){
-(function() {
-  'use strict';
 
   var PIXI = require('pixi.js');
   module.exports = new PIXI.AssetLoader([ 
@@ -164,7 +102,7 @@
 
 })();
 
-},{"pixi.js":22}],4:[function(require,module,exports){
+},{"pixi.js":22}],3:[function(require,module,exports){
 (function() {
   'use strict';
 
@@ -184,7 +122,7 @@
 
 })();
 
-},{"pixi.js":22}],5:[function(require,module,exports){
+},{"pixi.js":22}],4:[function(require,module,exports){
 (function() {
   'use strict';
 
@@ -217,7 +155,7 @@
 
 })();
 
-},{"pixi.js":22}],6:[function(require,module,exports){
+},{"pixi.js":22}],5:[function(require,module,exports){
 (function() {
   'use strict';
 
@@ -245,7 +183,7 @@
 
 })();
 
-},{"pixi.js":22}],7:[function(require,module,exports){
+},{"pixi.js":22}],6:[function(require,module,exports){
 (function() {
   'use strict';
 
@@ -300,7 +238,7 @@
 
 })();
 
-},{"pixi.js":22}],8:[function(require,module,exports){
+},{"pixi.js":22}],7:[function(require,module,exports){
 (function() {
   "use strict";
   
@@ -401,7 +339,7 @@
 
 })();
 
-},{"../banner_adds/ads_m":1,"./asset_loader":3,"./background/clouds":5,"./background/ground":6,"./game_over_scene/main":12,"./game_score/main":13,"./game_start_scene/main":14,"./planes/main":15,"./puffs/puffs_manager":17,"./rocks/rocks_manager":19,"pixi.js":22}],9:[function(require,module,exports){
+},{"../banner_adds/ads_m":1,"./asset_loader":2,"./background/clouds":4,"./background/ground":5,"./game_over_scene/main":11,"./game_score/main":12,"./game_start_scene/main":13,"./planes/main":14,"./puffs/puffs_manager":16,"./rocks/rocks_manager":18,"pixi.js":22}],8:[function(require,module,exports){
 (function() {
   'use strict';
 
@@ -461,7 +399,7 @@
   
 })();
 
-},{"pixi.js":22}],10:[function(require,module,exports){
+},{"pixi.js":22}],9:[function(require,module,exports){
 (function() {
   'use strict';
 
@@ -494,7 +432,7 @@
 
 })();
 
-},{"pixi.js":22}],11:[function(require,module,exports){
+},{"pixi.js":22}],10:[function(require,module,exports){
 (function() {
   'use strict';
 
@@ -570,7 +508,7 @@
 
 })();
 
-},{"../buttons/main":7,"pixi.js":22}],12:[function(require,module,exports){
+},{"../buttons/main":6,"pixi.js":22}],11:[function(require,module,exports){
 (function() {
   'use strict';
 
@@ -622,7 +560,7 @@
 
 })();
 
-},{"../backdrop/main":4,"../game_current_best_score/main":9,"../game_msg_banner/main":10,"../game_over_controls/main":11,"pixi.js":22}],13:[function(require,module,exports){
+},{"../backdrop/main":3,"../game_current_best_score/main":8,"../game_msg_banner/main":9,"../game_over_controls/main":10,"pixi.js":22}],12:[function(require,module,exports){
 (function() {
   'use strict';
 
@@ -689,7 +627,7 @@
   module.exports = ProgressTitle;
 })();
 
-},{"pixi.js":22}],14:[function(require,module,exports){
+},{"pixi.js":22}],13:[function(require,module,exports){
 (function() {
   'use strict';
 
@@ -752,7 +690,7 @@
 
 })();
 
-},{"../backdrop/main":4,"../game_msg_banner/main":10,"../tap_label/main":20,"../tapping_finger/main":21,"pixi.js":22}],15:[function(require,module,exports){
+},{"../backdrop/main":3,"../game_msg_banner/main":9,"../tap_label/main":19,"../tapping_finger/main":20,"pixi.js":22}],14:[function(require,module,exports){
 (function() {
   'use strict';
 
@@ -848,7 +786,7 @@
 
 })();
 
-},{"pixi.js":22}],16:[function(require,module,exports){
+},{"pixi.js":22}],15:[function(require,module,exports){
 (function() {
   'use strict';
   
@@ -877,7 +815,7 @@
 
 })();
 
-},{"pixi.js":22}],17:[function(require,module,exports){
+},{"pixi.js":22}],16:[function(require,module,exports){
 (function() {
   'use strict';
 
@@ -917,7 +855,7 @@
   module.exports = Main;
 })();
 
-},{"./puff":16,"pixi.js":22}],18:[function(require,module,exports){
+},{"./puff":15,"pixi.js":22}],17:[function(require,module,exports){
 (function() {
   'use strict';
 
@@ -978,7 +916,7 @@
 
 })();
 
-},{"pixi.js":22}],19:[function(require,module,exports){
+},{"pixi.js":22}],18:[function(require,module,exports){
 (function() {
   'use strict';
 
@@ -1028,7 +966,7 @@
 
 })();
 
-},{"./rock":18,"pixi.js":22}],20:[function(require,module,exports){
+},{"./rock":17,"pixi.js":22}],19:[function(require,module,exports){
 (function() {
   'use strict';
 
@@ -1052,7 +990,7 @@
   module.exports = TapRightLabel;
 })();
 
-},{"pixi.js":22}],21:[function(require,module,exports){
+},{"pixi.js":22}],20:[function(require,module,exports){
 (function() {
   'use strict';
 
@@ -1077,7 +1015,69 @@
 
 })();
 
-},{"pixi.js":22}],22:[function(require,module,exports){
+},{"pixi.js":22}],21:[function(require,module,exports){
+(function() {
+  'use strict';
+  
+  var parser = require('user-agent-parser');
+
+  window.FP = { 
+    GAME_OVER: true,
+    GAME_SPEED_INCREASE: 0.1,
+    GAME_MOBILE_SPEED_INCREASE: 0.1,
+    GAME_SCORE: 0,
+    GAME_HIGH_SCORE: 0,
+    CLOUDS_SPEED: 2,
+    GROUND_SPEED: 6,
+    ROCKS_SPEED: 5,
+    NUMBER_OF_ROCKS: 4,
+    ROCK_DISTANCE: Math.floor(window.innerWidth / 4),
+    VERTICAL_GAP_BETWEEN_ROCKS: 50,
+    PLANE_TAKE_OFF_SPEED: 6,
+    PLANE_LANDING_SPEED: 8,
+    PLANE_ROTATE_UP_SPEED: 0.1,
+    PLANE_ROTATE_DOWN_SPEED: 0.1,
+    PLANE_ROTATE_DOWN_MAX: 0.7,
+    PLANE_ROTATE_UP_MAX: -0.4,
+    PLANE_FALLING: true,
+    PLANE_MAX_LIFT: 90,
+    PLANE_OBSTICLES: [],
+    PLANE_PATH: 'app/img/Planes/',
+    LANDSCAPE_PATH: 'app/img/landscape/',
+    CLOUDS_PATH: './img/spritesheets/',
+    LETTERS_PATH: 'app/img/Letters/',
+    NUMBERS_PATH: 'app/img/Numbers/',
+    UI_PATH: 'app/img/ui/',
+    DEVICE: parser(navigator.userAgent).device.type, 
+    IS_NATIVE: CocoonJS.App.nativeExtensionObjectAvailable,
+    WW: window.innerWidth,
+    WH: window.innerHeight,
+  
+    isMobile: function() {
+      if(this.DEVICE && this.DEVICE === 'mobile') return true;
+      return false;
+    },
+  
+    getWidth: function() {
+      if(this.isMobile() || this.IS_NATIVE || window.innerWidth < 640) return window.innerWidth;
+      return 720;
+    },
+  
+    getHeight: function() {
+      if(this.isMobile() || this.IS_NATIVE || window.innerHeight < 480) return window.innerHeight;
+      return 640;
+    }
+  };
+
+  var GameEngine = require('./canvas/engine');
+
+  window.onload = function() {
+    new GameEngine();
+  };
+
+})();
+
+},{"./canvas/engine":7,"user-agent-parser":23}],22:[function(require,module,exports){
 /**
  * @license
  * pixi.js - v1.6.0
@@ -1588,4 +1588,4 @@ c.addEventListener("loaded",function(b){a.json=b.content.json,a.onLoaded()}),c.l
     module.exports = UAParser;
 })(this);
 
-},{}]},{},[2])
+},{}]},{},[21])

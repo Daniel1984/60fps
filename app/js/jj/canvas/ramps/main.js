@@ -5,21 +5,21 @@
 
   function Ramp(opt) {
     this.vx = undefined;
-    this.healthy_ramps = [0,1,2,3,4];
-    this.broken_ramps = [5,6,7,8,9];
+    this.broken_ramps = [0,1,2,3,4];
+    this.healthy_ramps = [5,6,7,8,9];
     this.textures = [];
     this.frames = [
-      'LandPiece_DarkBlue.png',
-      'LandPiece_DarkGreen.png',
-      'LandPiece_DarkMulticolored.png',
-      'LandPiece_DarkPing.png',
-      'LandPiece_LightGray.png',
-      //below broken ramps
       'BrokenLandPiece_Blue.png',
       'BrokenLandPiece_Gray.png',
       'BrokenLandPiece_Green.png',
       'BrokenLandPiece_Multicolored.png',
-      'BrokenLandPiece_Pink.png'
+      'BrokenLandPiece_Pink.png',
+
+      'LandPiece_DarkBlue.png',
+      'LandPiece_DarkGreen.png',
+      'LandPiece_DarkMulticolored.png',
+      'LandPiece_DarkPing.png',
+      'LandPiece_LightGray.png'
     ];
 
     for(var i = 0; i < this.frames.length; i++) {
@@ -41,7 +41,6 @@
 
     this.randomizeVx = function() {
       this.vx = Math.random() * 3 - 1.5;
-      //* (max - min) + min;
     };
 
     this.update = function() {
@@ -51,6 +50,7 @@
         this.repositionRamp();
         this.addScore(); 
         this.randomizeVx();
+        this.alpha = 1;
 	    }
       this.horFloat();
     };
@@ -81,7 +81,7 @@
     this.changeTexture();
     this.randomizeVx();
 
- }
+  }
 
   Ramp.prototype = Object.create(PIXI.MovieClip.prototype);
   Ramp.prototype.constructor = Ramp;

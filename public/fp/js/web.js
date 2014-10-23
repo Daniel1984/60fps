@@ -15,12 +15,12 @@
       FPW.url = '/scores';
     }
 
-    m.module(document.body, require('./fp_web/modules/new_leader'));
+    m.module(document.body, require('./web/modules/new_leader'));
   };
 
 })();
 
-},{"./fp_web/modules/new_leader":6,"mithril":9}],2:[function(require,module,exports){
+},{"./web/modules/new_leader":6,"mithril":9}],2:[function(require,module,exports){
 (function() {
   'use strict';
 
