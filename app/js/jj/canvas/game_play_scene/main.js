@@ -28,7 +28,7 @@
     };
     
     this.addRamps = function() { 
-      for(var i = 0; i < ramps_count; i++) { 
+      for(var i = 1; i <= ramps_count; i++) { 
         var ramp = new Ramp();
         ramp.position.y = GO.getHeight() - (ramp.height * 2) * i;
         this.addChild(ramp);
