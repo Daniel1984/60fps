@@ -43,7 +43,7 @@
   };
 
   Main.prototype.initGameLoop = function() {
-    requestAnimFrame(this.initGameLoop.bind(this));
+    requestAnimationFrame(this.initGameLoop.bind(this));
     for(var i = 0; i < game_stage.children.length; i++) {
       game_stage.children[i].update();
     } 

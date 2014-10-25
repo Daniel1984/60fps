@@ -29,7 +29,8 @@
       var text = new PIXI.BitmapText("RESTART", { font: "26px font" });
       text.x = GO.getWidth() / 2 - text.width / 2;
       text.y = GO.getHeight() - GO.getHeight() / 4 - text.height / 2;
-      text.setInteractive(true);
+      text.interactive = true;
+      text.buttonMode = true;
       text.mousedown = text.touchstart = function() { 
         _this.parent.restartGame();
       };

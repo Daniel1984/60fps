@@ -6,7 +6,7 @@
 
   function Jimmy() { 
     var jump_sound = new Sound('soft_jump');
-    this.vy = -10;
+    this.vy = -13;
     this.gravity = 0.2;
 
     var _this = this;

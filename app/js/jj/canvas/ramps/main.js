@@ -90,7 +90,7 @@
     };
 
     this.horFloat = function() {
-      if(this.currentFrame < 4) return;
+      if(this.currentFrame === 6 || this.currentFrame === 9) return;
       if(this.position.x <= 0 || this.position.x >= GO.getWidth() - this.width) this.vx *= -1;
       this.position.x += this.vx;
     };

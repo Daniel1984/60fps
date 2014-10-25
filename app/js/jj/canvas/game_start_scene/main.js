@@ -22,7 +22,8 @@
       var text = new PIXI.BitmapText("PLAY", {font: "26px font"});
       text.x = GO.getWidth() / 2 - text.width / 2;
       text.y = GO.getHeight() - ramp.height;
-      text.setInteractive(true);
+      text.interactive = true;
+      text.buttonMode = true;
       text.mousedown = text.touchstart = function() { 
         _this.parent.parent.startGameScene();
         _this.parent.removeChild(_this);

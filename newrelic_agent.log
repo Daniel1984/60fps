@@ -7,3 +7,9 @@
 {"name":"newrelic","hostname":"daniel-Inspiron-5423","pid":16786,"level":30,"msg":"Starting New Relic for Node.js connection process.","time":"2014-10-24T23:12:45.541Z","v":0}
 {"name":"newrelic","hostname":"daniel-Inspiron-5423","pid":16786,"component":"new_relic_response","level":30,"msg":"Reporting to: https://rpm.newrelic.com/accounts/696708/applications/4144210","time":"2014-10-24T23:12:49.175Z","v":0}
 {"name":"newrelic","hostname":"daniel-Inspiron-5423","pid":16786,"component":"collector_api","level":30,"msg":"Connected to collector-140.newrelic.com:443 with agent run ID 1005755960.","time":"2014-10-24T23:12:49.177Z","v":0}
+{"name":"newrelic","hostname":"daniel-Inspiron-5423","pid":17055,"level":30,"msg":"Starting New Relic for Node.js connection process.","time":"2014-10-24T23:20:58.255Z","v":0}
+{"name":"newrelic","hostname":"daniel-Inspiron-5423","pid":17055,"component":"new_relic_response","level":30,"msg":"Reporting to: https://rpm.newrelic.com/accounts/696708/applications/4144210","time":"2014-10-24T23:21:01.603Z","v":0}
+{"name":"newrelic","hostname":"daniel-Inspiron-5423","pid":17055,"component":"collector_api","level":30,"msg":"Connected to collector-140.newrelic.com:443 with agent run ID 1005764584.","time":"2014-10-24T23:21:01.604Z","v":0}
+{"name":"newrelic","hostname":"daniel-Inspiron-5423","pid":17102,"level":30,"msg":"Starting New Relic for Node.js connection process.","time":"2014-10-24T23:22:53.310Z","v":0}
+{"name":"newrelic","hostname":"daniel-Inspiron-5423","pid":17102,"component":"new_relic_response","level":30,"msg":"Reporting to: https://rpm.newrelic.com/accounts/696708/applications/4144210","time":"2014-10-24T23:22:57.087Z","v":0}
+{"name":"newrelic","hostname":"daniel-Inspiron-5423","pid":17102,"component":"collector_api","level":30,"msg":"Connected to collector-140.newrelic.com:443 with agent run ID 1005766545.","time":"2014-10-24T23:22:57.089Z","v":0}

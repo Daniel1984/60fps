@@ -8,7 +8,7 @@
   window.onload = function() {
 
     if(CocoonJS.App.nativeExtensionObjectAvailable) {
-      FPW.url = 'http://plane-flappy.herokuapp.com/scores';
+      FPW.url = 'https://min60fps.herokuapp.com/scores';
       //FPW.url = 'http://192.168.0.90:3000/scores';
     } else {
       FPW.url = '/scores';
