@@ -87,7 +87,7 @@
 
     this.jump = function() {
       jump_sound.play();
-      this.vy = -11;
+      this.vy = -12;
     };
 
     this.shortJump = function() {

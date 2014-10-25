@@ -8,6 +8,7 @@
     GAME_OVER: false,
     SCORE: 0,
     TOP_SCORE: 0,
+    PREV_RAMP_WAS_BROKEN: false,
     DEVICE: parser(navigator.userAgent).device.type, 
     IS_NATIVE: CocoonJS.App.nativeExtensionObjectAvailable,
     WW: window.innerWidth,

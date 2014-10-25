@@ -72,11 +72,21 @@
     };
 
     this.changeTexture = function() {
-     this.gotoAndStop(this.difficulty[Math.floor(Math.random() * this.difficulty.length)]);
+      // the trick here is not to allow 2 broken ramps in a row
+      var texture = this.difficulty[Math.floor(Math.random() * this.difficulty.length)];
+      if(GO.PREV_RAMP_WAS_BROKEN) {
+        do {
+          texture = this.difficulty[Math.floor(Math.random() * this.difficulty.length)];
+        } while(this.broken_ramps.indexOf(texture) !== -1);
+        GO.PREV_RAMP_WAS_BROKEN = false;
+      } else if(this.broken_ramps.indexOf(texture) !== -1) {
+        GO.PREV_RAMP_WAS_BROKEN = true;
+      }
+      this.gotoAndStop(texture);
     };
 
     this.repositionRamp = function() {
-	    this.position.y = this.position.y - (GO.getHeight() + (Math.random() + 100 - 20) + 20);
+      this.position.y = -this.height;
       this.position.x = Math.random() * (GO.getWidth() - this.width);
     };
 

@@ -18,7 +18,7 @@
     var game_over_sound = new Sound('game_over');
     var break_sound = new Sound('break');
     var ramp_height = new Ramp().height;
-    ramps_count = Math.ceil(GO.getHeight() / (ramp_height * 2));
+    ramps_count = GO.RAMPS_COUNT =  Math.ceil((GO.getHeight() - ramp_height * 2) / (ramp_height * 2));
 
     this.addJimmy = function() {
       jimmy = new Jimmy();
@@ -29,8 +29,11 @@
     
     this.addRamps = function() { 
       for(var i = 1; i <= ramps_count; i++) { 
-        var ramp = new Ramp();
-        ramp.position.y = GO.getHeight() - (ramp.height * 2) * i;
+        var ramp = new Ramp(), posY;
+        if(i === 1) { posY = GO.getHeight() - ramp.height; } 
+        else if(i === ramps_count) { posY = ramp.height; }
+        else { posY = GO.getHeight() - (ramp.height * 2) * i; }
+        ramp.position.y = Math.floor(posY);
         this.addChild(ramp);
       }
     };

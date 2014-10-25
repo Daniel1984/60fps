@@ -11,8 +11,8 @@
       ['HalfLandPiece_Left_Blue.png', 'HalfLandPiece_Right_Blue.png'],
       ['HalfLandPiece_Left_Gray.png', 'HalfLandPiece_Right_Gray.png'],
       ['HalfLandPiece_Left_Green.png', 'HalfLandPiece_Right_Green.png'],
-      ['HalfLandPiece_Left_Multicolored.png', 'HalfLandPiece_Right_Multicolored.png'],
-      ['HalfLandPiece_Left_Pink.png', 'HalfLandPiece_Right_Pink.png']
+      ['HalfLandPiece_Left_Pink.png', 'HalfLandPiece_Right_Pink.png'],
+      ['HalfLandPiece_Left_Multicolored.png', 'HalfLandPiece_Right_Multicolored.png']
     ];
 
     for(var i = 0; i < 2; i++) {

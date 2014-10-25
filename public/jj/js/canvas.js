@@ -193,7 +193,7 @@
     var game_over_sound = new Sound('game_over');
     var break_sound = new Sound('break');
     var ramp_height = new Ramp().height;
-    ramps_count = Math.ceil(GO.getHeight() / (ramp_height * 2));
+    ramps_count = GO.RAMPS_COUNT =  Math.ceil((GO.getHeight() - ramp_height * 2) / (ramp_height * 2));
 
     this.addJimmy = function() {
       jimmy = new Jimmy();
@@ -204,8 +204,11 @@
     
     this.addRamps = function() { 
       for(var i = 1; i <= ramps_count; i++) { 
-        var ramp = new Ramp();
-        ramp.position.y = GO.getHeight() - (ramp.height * 2) * i;
+        var ramp = new Ramp(), posY;
+        if(i === 1) { posY = GO.getHeight() - ramp.height; } 
+        else if(i === ramps_count) { posY = ramp.height; }
+        else { posY = GO.getHeight() - (ramp.height * 2) * i; }
+        ramp.position.y = Math.floor(posY);
         this.addChild(ramp);
       }
     };
@@ -501,7 +504,7 @@
 
     this.jump = function() {
       jump_sound.play();
-      this.vy = -11;
+      this.vy = -12;
     };
 
     this.shortJump = function() {
@@ -636,11 +639,21 @@
     };
 
     this.changeTexture = function() {
-     this.gotoAndStop(this.difficulty[Math.floor(Math.random() * this.difficulty.length)]);
+      // the trick here is not to allow 2 broken ramps in a row
+      var texture = this.difficulty[Math.floor(Math.random() * this.difficulty.length)];
+      if(GO.PREV_RAMP_WAS_BROKEN) {
+        do {
+          texture = this.difficulty[Math.floor(Math.random() * this.difficulty.length)];
+        } while(this.broken_ramps.indexOf(texture) !== -1);
+        GO.PREV_RAMP_WAS_BROKEN = false;
+      } else if(this.broken_ramps.indexOf(texture) !== -1) {
+        GO.PREV_RAMP_WAS_BROKEN = true;
+      }
+      this.gotoAndStop(texture);
     };
 
     this.repositionRamp = function() {
-	    this.position.y = this.position.y - (GO.getHeight() + (Math.random() + 100 - 20) + 20);
+      this.position.y = -this.height;
       this.position.x = Math.random() * (GO.getWidth() - this.width);
     };
 
@@ -748,8 +761,8 @@
       ['HalfLandPiece_Left_Blue.png', 'HalfLandPiece_Right_Blue.png'],
       ['HalfLandPiece_Left_Gray.png', 'HalfLandPiece_Right_Gray.png'],
       ['HalfLandPiece_Left_Green.png', 'HalfLandPiece_Right_Green.png'],
-      ['HalfLandPiece_Left_Multicolored.png', 'HalfLandPiece_Right_Multicolored.png'],
-      ['HalfLandPiece_Left_Pink.png', 'HalfLandPiece_Right_Pink.png']
+      ['HalfLandPiece_Left_Pink.png', 'HalfLandPiece_Right_Pink.png'],
+      ['HalfLandPiece_Left_Multicolored.png', 'HalfLandPiece_Right_Multicolored.png']
     ];
 
     for(var i = 0; i < 2; i++) {
@@ -807,6 +820,7 @@
     GAME_OVER: false,
     SCORE: 0,
     TOP_SCORE: 0,
+    PREV_RAMP_WAS_BROKEN: false,
     DEVICE: parser(navigator.userAgent).device.type, 
     IS_NATIVE: CocoonJS.App.nativeExtensionObjectAvailable,
     WW: window.innerWidth,
