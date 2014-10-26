@@ -5,20 +5,22 @@
 
   function Ramp(opt) {
     this.vx = undefined;
-    this.broken_ramps = [0,1,2,3,4];
+    this.broken_ramps = [0,1,2,3,4,5];
     this.textures = [];
     this.frames = [
-      'BrokenLandPiece_Blue.png',        // 0
-      'BrokenLandPiece_Gray.png',        // 1
-      'BrokenLandPiece_Green.png',       // 2
-      'BrokenLandPiece_Pink.png',        // 3
-      'BrokenLandPiece_Multicolored.png',// 4
-
-      'LandPiece_DarkBlue.png',          // 5
-      'LandPiece_DarkGreen.png',         // 6
-      'LandPiece_DarkMulticolored.png',  // 7
-      'LandPiece_DarkPing.png',          // 8
-      'LandPiece_LightGray.png'          // 9
+      'BrokenLandPiece_Green.png',
+      'BrokenLandPiece_Gray.png',
+      'BrokenLandPiece_Beige.png', 
+      'BrokenLandPiece_Blue.png', 
+      'BrokenLandPiece_Pink.png',        
+      'BrokenLandPiece_Multicolored.png',
+      
+      'LandPiece_DarkGreen.png',         
+      'LandPiece_LightGray.png',
+      'LandPiece_LightBeige.png',        
+      'LandPiece_DarkBlue.png',  
+      'LandPiece_DarkPing.png',
+      'LandPiece_DarkMulticolored.png'
     ];
 
     for(var i = 0; i < this.frames.length; i++) {
@@ -32,17 +34,19 @@
 
     this.setDifficulty = function() {
       if(GO.SCORE < 50) {
-        this.difficulty = [2,6,6,6,6,6];
-      } else if(GO.SCORE > 50 && GO.SCORE < 100) {
-        this.difficulty = [1,9,9,9,9,9];
-      } else if(GO.SCORE > 100 && GO.SCORE < 150) {
-        this.difficulty = [0,5,5,5,5,5];
-      } else if(GO.SCORE > 150 && GO.SCORE < 200) {
-        this.difficulty = [3,8,8,8,8,8];
-      } else if(GO.SCORE > 200 && GO.SCORE < 250) {
-        this.difficulty = [4,7,7,7,7,7];
+        this.difficulty = [0,6,6,6,6,6];
+      } else if(GO.SCORE >= 50 && GO.SCORE < 100) {
+        this.difficulty = [1,7,7,7,7,7];
+      } else if(GO.SCORE >= 100 && GO.SCORE < 150) {
+        this.difficulty = [2,8,8,2,8,8];
+      } else if(GO.SCORE >= 150 && GO.SCORE < 200) {
+        this.difficulty = [3,9,3,9,3,9];
+      } else if(GO.SCORE >= 200 && GO.SCORE < 250) {
+        this.difficulty = [4,10,4,10,4,10];
+      } else if(GO.SCORE >= 250 && GO.SCORE < 300) {
+        this.difficulty = [5,11,5,11,5,11];
       } else {
-        this.difficulty = [4,7,3,8,5,6];
+        this.difficulty = [5,5,5,11,5,5];
       }
     };
 
@@ -100,7 +104,7 @@
     };
 
     this.horFloat = function() {
-      if(this.currentFrame === 6 || this.currentFrame === 9) return;
+      if(this.currentFrame === 6 || this.currentFrame === 7) return;
       if(this.position.x <= 0 || this.position.x >= GO.getWidth() - this.width) this.vx *= -1;
       this.position.x += this.vx;
     };
