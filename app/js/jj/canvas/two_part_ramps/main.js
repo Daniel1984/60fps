@@ -36,12 +36,18 @@
     this.update = function() {
       this.moveDown();
       this.rotateObjects();
+			this.moveToSides();
       this.detectIfOffscreen();
     };
 
     this.moveDown = function() {
       this.position.y += this.vy;
     };
+
+		this.moveToSides = function() {
+			left_part.position.x -= 2;
+			right_part.position.x += 2;
+		};
 
     this.rotateObjects = function() {
       left_part.rotation += 0.1;

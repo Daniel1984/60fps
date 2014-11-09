@@ -2,8 +2,10 @@
   'use strict';
 
   var PIXI = require('pixi.js');
+	var Spring = require('../spring/main');	
 
   function Ramp(opt) {
+		this.has_spring = false;
     this.vx = undefined;
     this.broken_ramps = [0,1,2,3,4,5];
     this.textures = [];
@@ -26,6 +28,8 @@
     for(var i = 0; i < this.frames.length; i++) {
       this.textures.push(PIXI.Texture.fromFrame(this.frames[i]));
     }
+
+		var spring;
 
     PIXI.MovieClip.call(this, this.textures);
     this.position.x = Math.random() * (GO.getWidth() - this.width);
@@ -62,14 +66,33 @@
       this.vx = Math.random() * 3 - 1.5;
     };
 
+		this.removeSpring = function() {
+			if(this.has_spring) {
+				this.has_spring = false;
+				this.removeChild(spring);
+			}
+		};
+
+		this.addSpring = function() {
+			if(GO.SCORE !== 0 && GO.SCORE % 10 === 0 && !this.brokenRamp()) {
+				this.has_spring = true;
+				spring = new Spring();
+				spring.position.y = -spring.height;
+				spring.position.x = this.width / 2 - spring.width / 2;
+				this.addChild(spring);
+			}
+		};
+
     this.update = function() {
-	    if(this.position.y > GO.getHeight()) { 
+	    if(this.position.y > GO.getHeight() + this.height) { 
         this.setDifficulty();
         this.changeTexture();
         this.randomizeVx();
         this.repositionRamp();
         this.addScore(); 
         this.randomizeVx();
+				this.removeSpring();	
+				this.addSpring();
         this.alpha = 1;
 	    }
       this.horFloat();
@@ -99,7 +122,7 @@
       if(GO.SCORE > GO.TOP_SCORE) GO.TOP_SCORE = GO.SCORE;
     };
 
-    this.brokenRampHit = function() {
+    this.brokenRamp = function() {
       return this.broken_ramps.indexOf(this.currentFrame) === -1 ? false : true;
     };
 

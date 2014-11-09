@@ -6,8 +6,10 @@
 
   function Jimmy() { 
     var jump_sound = new Sound('soft_jump');
+    var spring_sound = new Sound('spring_jump');
     this.vy = -13;
     this.gravity = 0.2;
+		this.killed = false;
 
     var _this = this;
     var max_vx = 6;
@@ -36,14 +38,17 @@
     this.gotoAndStop(1);
     this.half_width = this.width / 2;
     this.half_height = this.height / 2;
+
     //get central x pos
     this.getCx = function() {
       return this.position.x + this.half_width;
     };
+
     //get central y pos
     this.getCy = function() {
       return this.position.y + this.half_height;
     };
+
     //het full y pos including height
     this.getFy = function() {
       return this.position.y + this.height;
@@ -73,11 +78,9 @@
     this.handleKeyUp = function(e) {
       switch(e.keyCode) {
         case 37:
-          _this.gotoAndStop(1);
           moving_left = false;
           break;
         case 39:
-          _this.gotoAndStop(5);
           moving_right = false;
           break;
         default:
@@ -85,16 +88,27 @@
       }
     };
 
+		this.handleJumpFrames = function(left_frame, right_frame) {
+			if(direction === 'left') {
+				this.gotoAndStop(left_frame);
+			} else if (direction === 'right') {
+				this.gotoAndStop(right_frame);
+			}
+		};
+
     this.jump = function() {
       jump_sound.play();
+			this.handleJumpFrames(0, 4);
       this.vy = -12;
     };
 
     this.shortJump = function() {
-      this.vy = -6;
+      this.vy = -9;
+			this.handleJumpFrames(0, 4);
     };
 
     this.longJump = function() {
+			spring_sound.play();
       this.vy = -16;
     };
 
@@ -102,6 +116,7 @@
       this.handleHorMove();
       this.stayInBounds();
       this.moveJimmy();
+			if(this.vy > 0) this.handleJumpFrames(1, 5);
     };
 
     this.handleHorMove = function() {

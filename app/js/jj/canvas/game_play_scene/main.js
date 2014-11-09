@@ -66,15 +66,18 @@
     };
     
     this.update = function() { 
-      //this.addHearthEnemy();
-      this.jimmyRampCollide();
+      this.addHearthEnemy();
+			if(!jimmy.killed) {
+      	this.detectJimmyAndRampCollision();
+				this.detectJimmyAndHearthCollision();
+			}
       this.detectGameOver();
       this.moveObjects();
       this.updateChildren();
     };
 
     this.addHearthEnemy = function() {
-      if(GO.SCORE !== 0 && GO.SCORE % 5 === 0 && !hearth_enemy_added) {
+      if(GO.SCORE !== 0 && GO.SCORE % 20 === 0 && !hearth_enemy_added) {
         hearth_enemy_added = true;
         hearth = new Hearth();
         this.addChild(hearth);
@@ -94,6 +97,7 @@
       } else if(jimmy.position.y > GO.getHeight()) {
         this.moveRampsUp();
         this.moveScoreUp();
+				this.moveHearthUp();
         if(!play_game_over_sound) game_over_sound.play();
         play_game_over_sound = true;
       }
@@ -105,13 +109,24 @@
       }
     };
 
+    this.moveRampsUp = function() {
+      for(var i = 0; i < ramps_count; i++) {
+	      this.children[i].position.y -= jimmy.vy; 
+      }
+    };
+
     this.moveHearthDown = function() {
       if(hearth_enemy_added) {
-        hearth.position.y -= jimmy.vy;
+        if(jimmy.vy < 0) hearth.position.y -= jimmy.vy;
         if(hearth.position.y > GO.getHeight()) {
           hearth_enemy_added = false;
-          this.removeChild(hearth);
         }
+      }
+    };
+
+    this.moveHearthUp = function() {
+      if(hearth_enemy_added) {
+        hearth.position.y -= jimmy.vy;
       }
     };
     
@@ -125,26 +140,49 @@
       score.position.y -= jimmy.vy;
     };
 
-    this.jimmyRampCollide = function() {
-      for(var i = 0; i < ramps_count; i++) {
-        var vx = jimmy.getCx() - this.children[i].getCx();
-        var vy = jimmy.getCy() - this.children[i].getCy();
-        // chw and chh === combined half widths and heights of jimmy and ramp
-        var chw = jimmy.half_width + this.children[i].half_width;
-        var chh = jimmy.half_height + this.children[i].half_height;
-        if(Math.abs(vx) < chw && Math.abs(vy) < chh) {
-          if(jimmy.getFy() - 4 >= this.children[i].position.y && jimmy.getFy() - 4 <= this.children[i].position.y + 10) {            
-            if(jimmy.vy > 0) {
-              if(this.children[i].brokenRampHit()) { this.breakRamp(this.children[i]); }
-              else { jimmy.jump(); }
-            }
-          }
-        }
+		this.detectCollision = function(obj_1, obj_2, cb) {
+      var vx = obj_1.getCx() - obj_2.getCx();
+      var vy = obj_1.getCy() - obj_2.getCy();
+      // chw and chh === combined half widths and heights of obj_1 and obj_2
+      var chw = obj_1.half_width + obj_2.half_width;
+      var chh = obj_1.half_height + obj_2.half_height;
+      if(Math.abs(vx) < chw && Math.abs(vy) < chh) {
+				this[cb](obj_1, obj_2, vx, vy);
       }
+		};
+
+    this.detectJimmyAndRampCollision = function() {
+      for(var i = 0; i < ramps_count; i++) {
+				this.detectCollision(jimmy, this.children[i], 'manageJimmyAndRampCollision');
+      }
+    };
+
+		this.manageJimmyAndRampCollision = function(jimmy, ramp) {
+      if(jimmy.getFy() >= ramp.position.y && jimmy.getFy() <= ramp.position.y + 10 && jimmy.vy > 0) {
+      	if(ramp.brokenRamp()) this.breakRamp(ramp);	
+				else if(ramp.has_spring) jimmy.longJump();
+				else jimmy.jump();
+     	}
+		};
+
+		this.detectJimmyAndHearthCollision = function() {
+			if(hearth_enemy_added) this.detectCollision(jimmy, hearth, 'manageJimmyAndHearthCollision');
+		};
+
+		this.manageJimmyAndHearthCollision = function(jimmy, hearth, vx, vy) {
+      if(jimmy.getFy() >= hearth.position.y && jimmy.getFy() <= hearth.position.y + 10 && jimmy.vy > 0) {
+				jimmy.jump();
+				GO.SCORE += 10;
+				GO.TOP_SCORE += 10;
+				hearth.kill();
+     	} else {
+				jimmy.killed = true;
+			}
     };
 
     this.breakRamp = function(el) {
       if(el.alpha === 0) return; // if ramp olready broken do nothing
+			jimmy.shortJump();
       break_sound.play();
       el.alpha = 0;
       var two_part_ramp = new TwoPartRamp(el.currentFrame);
@@ -165,6 +203,8 @@
       this.removeListeners();
       this.addAssets();
       play_game_over_sound = false;
+      hearth_enemy_added = false;
+			jimmy.killed = false;
     };
 
     this.addAssets = function() { 

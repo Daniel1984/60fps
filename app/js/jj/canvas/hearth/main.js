@@ -11,10 +11,14 @@
     }
     PIXI.MovieClip.call(this, textures);
 
+		this.killed = false;
     this.vx = 1;
     this.position.x = Math.random() * (GO.getWidth() - this.width);
+		this.position.y = -this.height;
     this.half_width = this.width / 2;
     this.half_height = this.height / 2;
+		this.play();
+		this.animationSpeed = 0.05;
 
     this.getCx = function() {
       return this.position.x + this.half_width;
@@ -22,6 +26,11 @@
 
     this.getCy = function() {
       return this.position.y + this.half_height;
+    };
+
+    //het full y pos including height
+    this.getFy = function() {
+      return this.position.y + this.height;
     };
 
     this.update = function() {
@@ -35,8 +44,13 @@
     };
 
     this.verticalMove = function() {
-
+			if(this.killed) this.position.y += 5;
+			if(this.position.y > GO.getHeight()) this.parent.removeChild(this);
     };
+
+		this.kill = function() {
+			this.killed = true;
+		};
 
   }
 
