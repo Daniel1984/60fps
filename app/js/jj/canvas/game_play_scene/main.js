@@ -20,6 +20,7 @@
 
     var game_over_sound = new Sound('game_over');
     var break_sound = new Sound('break');
+		var jimmy_die = new Sound('aww');
 
     var ramp_height = new Ramp().height;
     var optimum_ramp_space = Math.floor(GO.getHeight() - ramp_height * 5); 
@@ -144,8 +145,8 @@
       var vx = obj_1.getCx() - obj_2.getCx();
       var vy = obj_1.getCy() - obj_2.getCy();
       // chw and chh === combined half widths and heights of obj_1 and obj_2
-      var chw = obj_1.half_width + obj_2.half_width;
-      var chh = obj_1.half_height + obj_2.half_height;
+      var chw = obj_1.half_width + obj_2.half_width - 4;
+      var chh = obj_1.half_height + obj_2.half_height - 4;
       if(Math.abs(vx) < chw && Math.abs(vy) < chh) {
 				this[cb](obj_1, obj_2, vx, vy);
       }
@@ -158,7 +159,7 @@
     };
 
 		this.manageJimmyAndRampCollision = function(jimmy, ramp) {
-      if(jimmy.getFy() >= ramp.position.y && jimmy.getFy() <= ramp.position.y + 10 && jimmy.vy > 0) {
+      if(jimmy.getFy() >= ramp.position.y && jimmy.getFy() <= ramp.position.y + 14 && jimmy.vy > 0) {
       	if(ramp.brokenRamp()) this.breakRamp(ramp);	
 				else if(ramp.has_spring) jimmy.longJump();
 				else jimmy.jump();
@@ -170,13 +171,14 @@
 		};
 
 		this.manageJimmyAndHearthCollision = function(jimmy, hearth, vx, vy) {
-      if(jimmy.getFy() >= hearth.position.y && jimmy.getFy() <= hearth.position.y + 10 && jimmy.vy > 0) {
+      if(jimmy.getFy() >= hearth.position.y && jimmy.getFy() <= hearth.position.y + 14 && jimmy.vy > 0) {
 				jimmy.jump();
 				GO.SCORE += 10;
 				GO.TOP_SCORE += 10;
 				hearth.kill();
      	} else {
 				jimmy.killed = true;
+				jimmy_die.play();
 			}
     };
 

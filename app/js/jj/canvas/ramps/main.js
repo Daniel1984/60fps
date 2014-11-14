@@ -84,7 +84,11 @@
 		};
 
     this.update = function() {
-	    if(this.position.y > GO.getHeight() + this.height) { 
+			var delta = 0;
+			if(this.has_spring) {
+				delta = spring.height;
+			}
+	    if(this.position.y > GO.getHeight() + delta) { 
         this.setDifficulty();
         this.changeTexture();
         this.randomizeVx();
