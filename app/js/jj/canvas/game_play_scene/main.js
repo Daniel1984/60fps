@@ -6,21 +6,22 @@
   var Ramp = require('../ramps/main');
   var GameOver = require('../game_over_scene/main');
   var Score = require('../score/main');
-  var Hearth = require('../hearth/main');
   var TwoPartRamp = require('../two_part_ramps/main');
   var Sound = require('../../../core/sound'); 
-  var jimmy, game_over, ramps_count, score, hearth;
+	var enemies = {
+    hearth: require('../hearth/main'),
+    cloud: require('../cloud/main')
+	};
+  var jimmy, game_over, ramps_count, score, enemy;
   
   function PlayScene() {
     PIXI.DisplayObjectContainer.call(this);
 
-    var _this = this;
-    var play_game_over_sound = false;
-    var hearth_enemy_added = false;
-
-    var game_over_sound = new Sound('game_over');
+    var _this = this; 
+    var enemy_added = false;
+		var play_game_over_sound = false;
     var break_sound = new Sound('break');
-		var jimmy_die = new Sound('aww');
+		var game_over_sound = new Sound('aww');
 
     var ramp_height = new Ramp().height;
     var optimum_ramp_space = Math.floor(GO.getHeight() - ramp_height * 5); 
@@ -67,21 +68,23 @@
     };
     
     this.update = function() { 
-      this.addHearthEnemy();
+      this.addEnemy('hearth');
+			this.addEnemy('cloud');
 			if(!jimmy.killed) {
       	this.detectJimmyAndRampCollision();
-				this.detectJimmyAndHearthCollision();
+				this.detectJimmyAndEnemyCollision();
 			}
       this.detectGameOver();
       this.moveObjects();
       this.updateChildren();
     };
 
-    this.addHearthEnemy = function() {
-      if(GO.SCORE !== 0 && GO.SCORE % 20 === 0 && !hearth_enemy_added) {
-        hearth_enemy_added = true;
-        hearth = new Hearth();
-        this.addChild(hearth);
+    this.addEnemy = function(name) {
+			var frequency = name === 'hearth' ? 50 : 10;
+      if(GO.SCORE !== 0 && GO.SCORE % frequency === 0 && !enemy_added) {
+        enemy_added = true;
+        enemy = new enemies[name]();
+        this.addChild(enemy);
       }
     };
 
@@ -94,12 +97,12 @@
     this.moveObjects = function() {
       if(jimmy.position.y <= (GO.getHeight() / 2) - jimmy.half_height) {
         this.moveRampsDown();
-        this.moveHearthDown();
+        this.moveEnemyDown();
       } else if(jimmy.position.y > GO.getHeight()) {
         this.moveRampsUp();
         this.moveScoreUp();
-				this.moveHearthUp();
-        if(!play_game_over_sound) game_over_sound.play();
+				this.moveEnemyUp();
+        if(!play_game_over_sound && !jimmy.killed) game_over_sound.play();
         play_game_over_sound = true;
       }
     };
@@ -116,21 +119,21 @@
       }
     };
 
-    this.moveHearthDown = function() {
-      if(hearth_enemy_added) {
-        if(jimmy.vy < 0) hearth.position.y -= jimmy.vy;
-        if(hearth.position.y > GO.getHeight()) {
-          hearth_enemy_added = false;
+    this.moveEnemyDown = function() {
+      if(enemy_added) {
+        if(jimmy.vy < 0) enemy.position.y -= jimmy.vy;
+        if(enemy.position.y > GO.getHeight()) {
+          enemy_added = false;
         }
       }
     };
 
-    this.moveHearthUp = function() {
-      if(hearth_enemy_added) {
-        hearth.position.y -= jimmy.vy;
+    this.moveEnemyUp = function() {
+      if(enemy_added) {
+        enemy.position.y -= jimmy.vy;
       }
     };
-    
+
     this.moveRampsUp = function() {
       for(var i = 0; i < ramps_count; i++) {
 	      this.children[i].position.y -= jimmy.vy; 
@@ -145,8 +148,8 @@
       var vx = obj_1.getCx() - obj_2.getCx();
       var vy = obj_1.getCy() - obj_2.getCy();
       // chw and chh === combined half widths and heights of obj_1 and obj_2
-      var chw = obj_1.half_width + obj_2.half_width - 4;
-      var chh = obj_1.half_height + obj_2.half_height - 4;
+      var chw = obj_1.half_width + obj_2.half_width - 10;
+      var chh = obj_1.half_height + obj_2.half_height - 10;
       if(Math.abs(vx) < chw && Math.abs(vy) < chh) {
 				this[cb](obj_1, obj_2, vx, vy);
       }
@@ -159,26 +162,26 @@
     };
 
 		this.manageJimmyAndRampCollision = function(jimmy, ramp) {
-      if(jimmy.getFy() >= ramp.position.y && jimmy.getFy() <= ramp.position.y + 14 && jimmy.vy > 0) {
+      if(jimmy.getFy() >= ramp.position.y && jimmy.getFy() <= ramp.position.y + 20 && jimmy.vy > 0) {
       	if(ramp.brokenRamp()) this.breakRamp(ramp);	
 				else if(ramp.has_spring) jimmy.longJump();
 				else jimmy.jump();
      	}
 		};
 
-		this.detectJimmyAndHearthCollision = function() {
-			if(hearth_enemy_added) this.detectCollision(jimmy, hearth, 'manageJimmyAndHearthCollision');
+		this.detectJimmyAndEnemyCollision = function() {
+			if(enemy_added) this.detectCollision(jimmy, enemy, 'manageJimmyAndEnemyCollision');
 		};
 
-		this.manageJimmyAndHearthCollision = function(jimmy, hearth, vx, vy) {
-      if(jimmy.getFy() >= hearth.position.y && jimmy.getFy() <= hearth.position.y + 14 && jimmy.vy > 0) {
+		this.manageJimmyAndEnemyCollision = function(jimmy, enemy, vx, vy) {
+      if(jimmy.getFy() >= enemy.position.y && jimmy.getFy() <= enemy.position.y + 20 && jimmy.vy > 0) {
 				jimmy.jump();
 				GO.SCORE += 10;
 				GO.TOP_SCORE += 10;
-				hearth.kill();
+				enemy.kill();
      	} else {
 				jimmy.killed = true;
-				jimmy_die.play();
+				game_over_sound.play();
 			}
     };
 
@@ -205,7 +208,7 @@
       this.removeListeners();
       this.addAssets();
       play_game_over_sound = false;
-      hearth_enemy_added = false;
+      enemy_added = false;
 			jimmy.killed = false;
     };
 
