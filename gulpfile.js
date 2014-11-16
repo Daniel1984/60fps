@@ -9,6 +9,7 @@ var gulp = require('gulp'),
     sequence = require('run-sequence'),
     less = require('gulp-less'),
     zip = require('gulp-zip'),
+		rev = require('gulp-rev-append'),
     gutil =  require('gulp-util');
 
 var production = gutil.env.type === "production";
@@ -25,10 +26,18 @@ var paths = {
     css: './app/less/**/*.less'
   },
   dest: {
+		base: './public/' + game_name + '/',
+		html: './public/' + game_name + '/index.html',
     js: './public/' + game_name + '/js',
     css: './public/' + game_name + '/css'
   }
 };
+
+gulp.task('rev', function() {
+  gulp.src(paths.dest.html)
+    .pipe(rev())
+    .pipe(gulp.dest(paths.dest.base));
+});
 
 gulp.task('canvas_js', function() {
   gulp.src(paths.source.canvas_js)
@@ -90,5 +99,6 @@ gulp.task('build', [
   'canvas_js',
   'web_js',
   'canvas_css',
-  'web_css'
+  'web_css',
+	'rev'
 ]);
