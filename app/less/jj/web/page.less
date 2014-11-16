@@ -1,0 +1,98 @@
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: #333;
+}
+div.page {
+  background-color: #333;
+  div.header  {
+    padding: 5px 0 5px 0;
+    background: #1e2a35;
+    -webkit-box-shadow: 1px 1px 1px 0 rgba(0,0,0,0.3) ;
+    box-shadow: 1px 1px 1px 0 rgba(0,0,0,0.3) ;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.2) ;
+    a.title {
+      display: block;
+      margin: 0 auto;
+      text-align: center;
+    }
+    img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+
+  div.body {
+    div.score-addition {
+      h1 {
+        color: whiteSmoke;
+        text-align: center;
+      }
+      div.score {
+        text-shadow: 1px 1px 1px rgba(0,0,0,0.2) ;
+        font-size: 80px;
+        font-weight: 800;
+        color: #acdcee;
+        text-align: center;
+      }
+      table {
+        font-size: 18px;
+        -webkit-box-shadow: 1px 1px 1px 0 rgba(0,0,0,0.3) ;
+        box-shadow: 1px 1px 1px 0 rgba(0,0,0,0.3) ;
+        tr {
+          td {
+            color: whiteSmoke;
+            border: 1px solid #1c1e22;
+            background: #1e2a35;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.2) ;
+            p.bg-danger { 
+              color: black; 
+              padding: 7px;
+              background-color: #D63E3E;
+            }
+            &.input-title {
+              text-align: center;
+            }
+          }
+        }
+        input[type='text'] {
+          height: 45px;
+          font-size: 24px;
+          text-align: center;
+          margin: 5px 0 15px 0;
+        }
+      }
+    }
+    div.leaderboard {
+      margin-top: 30px;
+      h2 {
+        color: whiteSmoke;
+        text-align: center;
+      }
+      h4 {
+        color: #acdcee;
+        text-align: center;
+      }
+      table {
+        font-size: 18px;
+        margin-top: 40px;
+        -webkit-box-shadow: 1px 1px 1px 0 rgba(0,0,0,0.3) ;
+        box-shadow: 1px 1px 1px 0 rgba(0,0,0,0.3) ;
+        tr {
+          td {
+            color: whiteSmoke;
+            border: 1px solid #1c1e22;
+            background: #1e2a35;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.2) ;
+            &.loading {
+              text-align: center;
+            }
+            &.name-td {
+              word-break: break-all;
+            }
+          }
+        }
+      }
+    }
+  }
+}

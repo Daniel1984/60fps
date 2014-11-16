@@ -9,7 +9,7 @@ var gulp = require('gulp'),
     sequence = require('run-sequence'),
     less = require('gulp-less'),
     zip = require('gulp-zip'),
-		rev = require('gulp-rev-append'),
+	rev = require('gulp-rev-append'),
     gutil =  require('gulp-util');
 
 var production = gutil.env.type === "production";
@@ -26,8 +26,8 @@ var paths = {
     css: './app/less/**/*.less'
   },
   dest: {
-		base: './public/' + game_name + '/',
-		html: './public/' + game_name + '/index.html',
+	base: './public/' + game_name + '/',
+	html: './public/' + game_name + '/index.html',
     js: './public/' + game_name + '/js',
     css: './public/' + game_name + '/css'
   }

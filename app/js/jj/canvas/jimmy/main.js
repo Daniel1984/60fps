@@ -4,14 +4,14 @@
   var PIXI = require('pixi.js');
   var Sound = require('../../../core/sound');
 
-  function Jimmy() { 
+  function Jimmy() {
+		var _this = this;
     var jump_sound = new Sound('soft_jump');
     var spring_sound = new Sound('spring_jump');
     this.vy = -13;
     this.gravity = 0.2;
 		this.killed = false;
 
-    var _this = this;
     var max_vx = 6;
     var horizontal_drag = 0.1; // used to slow down horizontal movement
     var vx = 1; 
@@ -59,6 +59,7 @@
     };
 
     this.handleKeyDown = function(e) {
+			console.log('asasasas');
       switch(e.keyCode) {
         case 37:
           _this.gotoAndStop(0);

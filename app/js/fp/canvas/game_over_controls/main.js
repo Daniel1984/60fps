@@ -8,29 +8,12 @@
     PIXI.DisplayObjectContainer.call(this);
     this.position.y = FP.getHeight() - 190 / 2;
     this.position.x = FP.getWidth() / 2 - 300 / 2;
-//    this.addShareBtn();
     this.addRestartBtn();
     this.addLeaderBoardBtn();
   }
 
   ResetGameControls.prototype = Object.create(PIXI.DisplayObjectContainer.prototype);
   ResetGameControls.prototype.constructor = ResetGameControls;
-
-//  ResetGameControls.prototype.addShareBtn = function() {
-//    var options = {
-//      width: 140,
-//      letters: ['S', 'H', 'A', 'R', 'E'],
-//      letterH: 20,
-//      letterW: 15,
-//      lettersXoffset: 30,
-//      callback: function() {
-//        alert('not implemented yet');
-//      }
-//    };
-//    var button = new Button(options);
-//    button.y = 50;
-//    this.addChild(button);    
-//  };
 
   ResetGameControls.prototype.addRestartBtn = function() {
     var _this = this;

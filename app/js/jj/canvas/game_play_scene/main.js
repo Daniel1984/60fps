@@ -58,13 +58,13 @@
     };
       
     this.addListeners = function() {
-      document.addEventListener('keydown', jimmy.handleKeyDown);
-      document.addEventListener('keyup', jimmy.handleKeyUp);
+      addEventListener('keydown', jimmy.handleKeyDown);
+      addEventListener('keyup', jimmy.handleKeyUp);
     };
 
     this.removeListeners = function() {
-      document.removeEventListener('keydown', jimmy.handleKeyDown);
-      document.removeEventListener('keyup', jimmy.handleKeyUp);
+      removeEventListener('keydown', jimmy.handleKeyDown);
+      removeEventListener('keyup', jimmy.handleKeyUp);
     };
     
     this.update = function() { 
@@ -80,7 +80,7 @@
     };
 
     this.addEnemy = function(name) {
-			var frequency = name === 'hearth' ? 50 : 10;
+			var frequency = name === 'hearth' ? 30 : 15;
       if(GO.SCORE !== 0 && GO.SCORE % frequency === 0 && !enemy_added) {
         enemy_added = true;
         enemy = new enemies[name]();

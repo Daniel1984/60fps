@@ -28,14 +28,40 @@
     this.addRestartTxt = function() {
       var text = new PIXI.BitmapText("RESTART", { font: "26px font" });
       text.x = GO.getWidth() / 2 - text.width / 2;
-      text.y = GO.getHeight() - GO.getHeight() / 4 - text.height / 2;
+      text.y = GO.getHeight() - text.height * 2;
       text.interactive = true;
       text.buttonMode = true;
-      text.mousedown = text.touchstart = function() { 
+      text.mousedown = text.tap = function() { 
         _this.parent.restartGame();
       };
       this.addChild(text);
     };
+
+		this.addLeaderBoardBtn = function() {
+      var text = new PIXI.BitmapText("ADD TO \n LEADERBOARD", { font: "26px font", align: 'center' });
+      text.x = GO.getWidth() / 2 - text.width / 2;
+      text.y = GO.getHeight() - text.height * 4;
+      text.interactive = true;
+      text.buttonMode = true;
+      text.mousedown = text.tap = this.onAddToLeaderboardClick;
+			this.addChild(text);
+		};
+
+		this.onAddToLeaderboardClick = function() {
+      CocoonJS.App.disableTouchInCocoonJS();
+      CocoonJS.App.onLoadInTheWebViewSucceed.addEventListener(_this.onWebViewLoaded);
+      CocoonJS.App.loadInTheWebView('./web_views/index.html');
+		};
+
+		this.onWebViewLoaded = function(pageURL) {  
+      CocoonJS.App.forward("score =" + GO.SCORE + "; m.redraw();");
+      CocoonJS.App.showTheWebView();
+			_this.removeCocoonListener();
+    };
+
+		this.removeCocoonListener = function() {
+			CocoonJS.App.onLoadInTheWebViewSucceed.removeEventListener(_this.onWebViewLoaded);
+		};
 
     this.update = function() {
       this.addScore();
@@ -43,6 +69,7 @@
 
     this.addGameOverTxt();
     this.addRestartTxt();
+		this.addLeaderBoardBtn();
     
   }
 
