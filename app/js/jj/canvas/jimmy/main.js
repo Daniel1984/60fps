@@ -58,38 +58,24 @@
       return this.position.y + this.height / 2;
     };
 
-    this.handleKeyDown = function(e) {
-			console.log('asasasas');
-      switch(e.keyCode) {
-        case 37:
-          _this.gotoAndStop(0);
-          moving_left = true;
-          direction = 'left';
-          break;
-        case 39:
-          _this.gotoAndStop(4);
-          moving_right = true;
-          direction = 'right';
-          break;
-        default:
-          break;
-      }
-    };
+		this.moveLeft = function() {
+      _this.gotoAndStop(0);
+      moving_left = true;
+      direction = 'left';
+		};
 
-    this.handleKeyUp = function(e) {
-      switch(e.keyCode) {
-        case 37:
-          moving_left = false;
-          break;
-        case 39:
-          moving_right = false;
-          break;
-        default:
-          break;
-      }
-    };
+		this.moveRight = function() {
+      _this.gotoAndStop(4);
+      moving_right = true;
+      direction = 'right';
+		};
 
-		this.handleJumpFrames = function(left_frame, right_frame) {
+		this.stopMoving = function() {
+			_this.moving_left = false;
+			_this.moving_right = false;
+		};
+
+		this.handleMcFrames = function(left_frame, right_frame) {
 			if(direction === 'left') {
 				this.gotoAndStop(left_frame);
 			} else if (direction === 'right') {
@@ -99,13 +85,13 @@
 
     this.jump = function() {
       jump_sound.play();
-			this.handleJumpFrames(0, 4);
+			this.handleMcFrames(0, 4);
       this.vy = -12;
     };
 
     this.shortJump = function() {
       this.vy = -9;
-			this.handleJumpFrames(0, 4);
+			this.handleMcFrames(0, 4);
     };
 
     this.longJump = function() {
@@ -117,7 +103,7 @@
       this.handleHorMove();
       this.stayInBounds();
       this.moveJimmy();
-			if(this.vy > 0) this.handleJumpFrames(1, 5);
+			if(this.vy > 0) this.handleMcFrames(1, 5);
     };
 
     this.handleHorMove = function() {

@@ -7,10 +7,9 @@
 
   function Main() {
     GameEngine.call(this, { asset_loader: require('./asset_loader') });
-    var _this = this;
-
+		
     this.startGameScene = function() {
-      _this.addElement(new PlayScene());  
+      this.addElement(new PlayScene());  
     };
   }
 

@@ -189,10 +189,9 @@
 
   function Main() {
     GameEngine.call(this, { asset_loader: require('./asset_loader') });
-    var _this = this;
-
+		
     this.startGameScene = function() {
-      _this.addElement(new PlayScene());  
+      this.addElement(new PlayScene());  
     };
   }
 
@@ -309,16 +308,33 @@
   function PlayScene() {
     PIXI.DisplayObjectContainer.call(this);
 
-    var _this = this; 
+    var _this = this;  
     var enemy_added = false;
 		var play_game_over_sound = false;
     var break_sound = new Sound('break');
 		var game_over_sound = new Sound('aww');
-
     var ramp_height = new Ramp().height;
     var optimum_ramp_space = Math.floor(GO.getHeight() - ramp_height * 5); 
     ramps_count = GO.RAMPS_COUNT =  Math.floor(GO.getHeight() / (ramp_height * 2));
     var gap_between_ramps = Math.floor(optimum_ramp_space / (ramps_count - 2));
+
+    this.hitArea = new PIXI.Rectangle(0, 0, GO.getWidth(), GO.getHeight());
+		this.interactive = true;
+
+		this.handleTouchStart = function(e) {
+			if(e.getLocalPosition(_this).x > GO.getWidth() / 2) {
+				jimmy.moveRight();
+			} else {
+				jimmy.moveLeft();
+			}
+		};
+
+		this.handleTouchEnd = function() {
+			jimmy.stopMoving();
+		};
+
+		this.mousedown = this.touchstart = _this.handleTouchStart;
+		this.mouseup = this.touchend = _this.handleTouchEnd;
 
     this.addJimmy = function() {
       jimmy = new Jimmy();
@@ -349,16 +365,6 @@
       this.addChild(score);
     };
       
-    this.addListeners = function() {
-      addEventListener('keydown', jimmy.handleKeyDown);
-      addEventListener('keyup', jimmy.handleKeyUp);
-    };
-
-    this.removeListeners = function() {
-      removeEventListener('keydown', jimmy.handleKeyDown);
-      removeEventListener('keyup', jimmy.handleKeyUp);
-    };
-    
     this.update = function() { 
       this.addEnemy('hearth');
 			this.addEnemy('cloud');
@@ -495,21 +501,19 @@
     };
 
     this.restartGame = function() {
-      GO.SCORE = 0;
-      this.children = [];
-      this.removeListeners();
-      this.addAssets();
+      GO.SCORE = 0;	
       play_game_over_sound = false;
       enemy_added = false;
 			jimmy.killed = false;
+			this.removeChildren();
+      this.addAssets();
     };
 
     this.addAssets = function() { 
       this.addRamps();
-      this.addJimmy();
-      this.addListeners();
+      this.addJimmy(); 
       this.addGameOver();
-      this.addScore(); 
+      this.addScore();
     };
 
     this.addAssets();
@@ -679,38 +683,24 @@
       return this.position.y + this.height / 2;
     };
 
-    this.handleKeyDown = function(e) {
-			console.log('asasasas');
-      switch(e.keyCode) {
-        case 37:
-          _this.gotoAndStop(0);
-          moving_left = true;
-          direction = 'left';
-          break;
-        case 39:
-          _this.gotoAndStop(4);
-          moving_right = true;
-          direction = 'right';
-          break;
-        default:
-          break;
-      }
-    };
+		this.moveLeft = function() {
+      _this.gotoAndStop(0);
+      moving_left = true;
+      direction = 'left';
+		};
 
-    this.handleKeyUp = function(e) {
-      switch(e.keyCode) {
-        case 37:
-          moving_left = false;
-          break;
-        case 39:
-          moving_right = false;
-          break;
-        default:
-          break;
-      }
-    };
+		this.moveRight = function() {
+      _this.gotoAndStop(4);
+      moving_right = true;
+      direction = 'right';
+		};
 
-		this.handleJumpFrames = function(left_frame, right_frame) {
+		this.stopMoving = function() {
+			_this.moving_left = false;
+			_this.moving_right = false;
+		};
+
+		this.handleMcFrames = function(left_frame, right_frame) {
 			if(direction === 'left') {
 				this.gotoAndStop(left_frame);
 			} else if (direction === 'right') {
@@ -720,13 +710,13 @@
 
     this.jump = function() {
       jump_sound.play();
-			this.handleJumpFrames(0, 4);
+			this.handleMcFrames(0, 4);
       this.vy = -12;
     };
 
     this.shortJump = function() {
       this.vy = -9;
-			this.handleJumpFrames(0, 4);
+			this.handleMcFrames(0, 4);
     };
 
     this.longJump = function() {
@@ -738,7 +728,7 @@
       this.handleHorMove();
       this.stayInBounds();
       this.moveJimmy();
-			if(this.vy > 0) this.handleJumpFrames(1, 5);
+			if(this.vy > 0) this.handleMcFrames(1, 5);
     };
 
     this.handleHorMove = function() {

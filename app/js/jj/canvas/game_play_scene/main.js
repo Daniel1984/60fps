@@ -17,16 +17,33 @@
   function PlayScene() {
     PIXI.DisplayObjectContainer.call(this);
 
-    var _this = this; 
+    var _this = this;  
     var enemy_added = false;
 		var play_game_over_sound = false;
     var break_sound = new Sound('break');
 		var game_over_sound = new Sound('aww');
-
     var ramp_height = new Ramp().height;
     var optimum_ramp_space = Math.floor(GO.getHeight() - ramp_height * 5); 
     ramps_count = GO.RAMPS_COUNT =  Math.floor(GO.getHeight() / (ramp_height * 2));
     var gap_between_ramps = Math.floor(optimum_ramp_space / (ramps_count - 2));
+
+    this.hitArea = new PIXI.Rectangle(0, 0, GO.getWidth(), GO.getHeight());
+		this.interactive = true;
+
+		this.handleTouchStart = function(e) {
+			if(e.getLocalPosition(_this).x > GO.getWidth() / 2) {
+				jimmy.moveRight();
+			} else {
+				jimmy.moveLeft();
+			}
+		};
+
+		this.handleTouchEnd = function() {
+			jimmy.stopMoving();
+		};
+
+		this.mousedown = this.touchstart = _this.handleTouchStart;
+		this.mouseup = this.touchend = _this.handleTouchEnd;
 
     this.addJimmy = function() {
       jimmy = new Jimmy();
@@ -57,16 +74,6 @@
       this.addChild(score);
     };
       
-    this.addListeners = function() {
-      addEventListener('keydown', jimmy.handleKeyDown);
-      addEventListener('keyup', jimmy.handleKeyUp);
-    };
-
-    this.removeListeners = function() {
-      removeEventListener('keydown', jimmy.handleKeyDown);
-      removeEventListener('keyup', jimmy.handleKeyUp);
-    };
-    
     this.update = function() { 
       this.addEnemy('hearth');
 			this.addEnemy('cloud');
@@ -203,21 +210,19 @@
     };
 
     this.restartGame = function() {
-      GO.SCORE = 0;
-      this.children = [];
-      this.removeListeners();
-      this.addAssets();
+      GO.SCORE = 0;	
       play_game_over_sound = false;
       enemy_added = false;
 			jimmy.killed = false;
+			this.removeChildren();
+      this.addAssets();
     };
 
     this.addAssets = function() { 
       this.addRamps();
-      this.addJimmy();
-      this.addListeners();
+      this.addJimmy(); 
       this.addGameOver();
-      this.addScore(); 
+      this.addScore();
     };
 
     this.addAssets();
