@@ -59,20 +59,23 @@
     };
 
 		this.moveLeft = function() {
-      _this.gotoAndStop(0);
+      this.gotoAndStop(0);
+			console.log('moving left');
       moving_left = true;
       direction = 'left';
 		};
 
 		this.moveRight = function() {
-      _this.gotoAndStop(4);
+      this.gotoAndStop(4);
+			console.log('moving right');
       moving_right = true;
       direction = 'right';
 		};
 
 		this.stopMoving = function() {
-			_this.moving_left = false;
-			_this.moving_right = false;
+			console.log('stopped moving');
+			moving_left = false;
+			moving_right = false;
 		};
 
 		this.handleMcFrames = function(left_frame, right_frame) {
@@ -107,10 +110,10 @@
     };
 
     this.handleHorMove = function() {
-      if(moving_right) {
+      if(moving_right === true) {
         this.position.x += vx;
         if(vx < max_vx) vx += this.gravity;
-      } else if(moving_left) {
+      } else if(moving_left === true) {
         this.position.x -= vx;
         if(vx < max_vx) vx += this.gravity;
       } else if(!moving_right && !moving_left) {

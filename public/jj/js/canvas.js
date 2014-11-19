@@ -98,8 +98,10 @@
 
   function Cloud() {
     BaseEnemy.call(this, ['AngryCloud.png', 'HappyCloud.png']);
-		this.scale.x = 0.9;
-		this.scale.y = 0.9;
+		//this.scale.x = 0.7;
+		//this.scale.y = 0.7;
+		this.width = this.width - 40;
+		this.height = this.height - 20;
 		this.killed = false;
     this.vx = 0.8;
 		this.play();
@@ -684,20 +686,23 @@
     };
 
 		this.moveLeft = function() {
-      _this.gotoAndStop(0);
+      this.gotoAndStop(0);
+			console.log('moving left');
       moving_left = true;
       direction = 'left';
 		};
 
 		this.moveRight = function() {
-      _this.gotoAndStop(4);
+      this.gotoAndStop(4);
+			console.log('moving right');
       moving_right = true;
       direction = 'right';
 		};
 
 		this.stopMoving = function() {
-			_this.moving_left = false;
-			_this.moving_right = false;
+			console.log('stopped moving');
+			moving_left = false;
+			moving_right = false;
 		};
 
 		this.handleMcFrames = function(left_frame, right_frame) {
@@ -732,10 +737,10 @@
     };
 
     this.handleHorMove = function() {
-      if(moving_right) {
+      if(moving_right === true) {
         this.position.x += vx;
         if(vx < max_vx) vx += this.gravity;
-      } else if(moving_left) {
+      } else if(moving_left === true) {
         this.position.x -= vx;
         if(vx < max_vx) vx += this.gravity;
       } else if(!moving_right && !moving_left) {

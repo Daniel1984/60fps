@@ -6,8 +6,10 @@
 
   function Cloud() {
     BaseEnemy.call(this, ['AngryCloud.png', 'HappyCloud.png']);
-		this.scale.x = 0.9;
-		this.scale.y = 0.9;
+		//this.scale.x = 0.7;
+		//this.scale.y = 0.7;
+		this.width = this.width - 40;
+		this.height = this.height - 20;
 		this.killed = false;
     this.vx = 0.8;
 		this.play();
