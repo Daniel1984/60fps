@@ -14,7 +14,7 @@
     WW: window.innerWidth,
     WH: window.innerHeight,
     isMobile: function() {
-      if(this.DEVICE && this.DEVICE === 'mobile') return true;
+      if((this.DEVICE && this.DEVICE === 'mobile') || (this.DEVICE && this.DEVICE === 'tablet')) return true;
       return false;
     },
   

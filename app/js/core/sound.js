@@ -8,6 +8,7 @@
     this.audio.load();
 
     this.play = function() {
+			if(!GO.IS_NATIVE && GO.isMobile()) return;
       this.audio.currentTime = 0;
       this.audio.volume = 0.5;
       this.audio.play();

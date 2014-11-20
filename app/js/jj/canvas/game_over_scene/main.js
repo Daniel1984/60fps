@@ -17,7 +17,7 @@
 
     this.addScore = function() {
       if(score) this.removeChild(score);
-      score = new PIXI.BitmapText("SCORE: " + GO.SCORE + "\n TOP SCORE: " + GO.TOP_SCORE, 
+      score = new PIXI.BitmapText("SCORE: " + GO.SCORE + "\nTOP SCORE: " + GO.TOP_SCORE, 
         { font: "20px font", align: "center" }
       );
       score.position.x = GO.getWidth() / 2 - score.width/ 2;
@@ -28,7 +28,7 @@
     this.addRestartTxt = function() {
       var text = new PIXI.BitmapText("RESTART", { font: "26px font" });
       text.x = GO.getWidth() / 2 - text.width / 2;
-      text.y = GO.getHeight() - text.height * 2;
+      text.y = GO.getHeight() - text.height * 6;
       text.interactive = true;
       text.buttonMode = true;
       text.mousedown = text.tap = function() { 
@@ -38,9 +38,9 @@
     };
 
 		this.addLeaderBoardBtn = function() {
-      var text = new PIXI.BitmapText("ADD TO \n LEADERBOARD", { font: "26px font", align: 'center' });
+      var text = new PIXI.BitmapText("ADD SCORE", { font: "26px font", align: 'center' });
       text.x = GO.getWidth() / 2 - text.width / 2;
-      text.y = GO.getHeight() - text.height * 4;
+      text.y = GO.getHeight() - text.height * 2;
       text.interactive = true;
       text.buttonMode = true;
       text.mousedown = text.tap = this.onAddToLeaderboardClick;
@@ -48,12 +48,14 @@
 		};
 
 		this.onAddToLeaderboardClick = function() {
+			_this.parent.addLoadingScreen();
       CocoonJS.App.disableTouchInCocoonJS();
       CocoonJS.App.onLoadInTheWebViewSucceed.addEventListener(_this.onWebViewLoaded);
       CocoonJS.App.loadInTheWebView('./web_views/index.html');
 		};
 
 		this.onWebViewLoaded = function(pageURL) {  
+			_this.parent.removeLoadingScreen();
       CocoonJS.App.forward("score =" + GO.SCORE + "; m.redraw();");
       CocoonJS.App.showTheWebView();
 			_this.removeCocoonListener();

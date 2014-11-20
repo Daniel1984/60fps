@@ -7,12 +7,13 @@
   var GameOver = require('../game_over_scene/main');
   var Score = require('../score/main');
   var TwoPartRamp = require('../two_part_ramps/main');
+	var Loading = require('../loading_scene/main');
   var Sound = require('../../../core/sound'); 
 	var enemies = {
     hearth: require('../hearth/main'),
     cloud: require('../cloud/main')
 	};
-  var jimmy, game_over, ramps_count, score, enemy;
+  var jimmy, game_over, loading_screen, ramps_count, score, enemy;
   
   function PlayScene() {
     PIXI.DisplayObjectContainer.call(this);
@@ -44,6 +45,15 @@
 
 		this.mousedown = this.touchstart = _this.handleTouchStart;
 		this.mouseup = this.touchend = _this.handleTouchEnd;
+
+		this.addLoadingScreen = function() {
+			loading_screen = new Loading();
+			_this.addChild(loading_screen);
+		};
+
+		this.removeLoadingScreen = function() {
+			_this.removeChild(loading_screen);
+		};	
 
     this.addJimmy = function() {
       jimmy = new Jimmy();

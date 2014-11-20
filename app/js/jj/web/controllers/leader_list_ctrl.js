@@ -10,8 +10,8 @@
     this.onCancelClick = function(e) {
       e.currentTarget.setAttribute("disabled", true);
       e.currentTarget.innerHTML = 'loading...';
-      CocoonJS.App.enableTouchInCocoonJS();
       CocoonJS.App.hide();
+      CocoonJS.App.enableTouchInCocoonJS();
     };
 
   };
