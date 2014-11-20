@@ -60,20 +60,17 @@
 
 		this.moveLeft = function() {
       this.gotoAndStop(0);
-			console.log('moving left');
       moving_left = true;
       direction = 'left';
 		};
 
 		this.moveRight = function() {
       this.gotoAndStop(4);
-			console.log('moving right');
       moving_right = true;
       direction = 'right';
 		};
 
 		this.stopMoving = function() {
-			console.log('stopped moving');
 			moving_left = false;
 			moving_right = false;
 		};

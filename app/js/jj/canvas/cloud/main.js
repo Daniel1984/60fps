@@ -2,14 +2,12 @@
   'use strict';
 
 	var BaseEnemy = require('../core/base_enemy_mc');
-	var Wind = require('../wind/main');
+//	var Wind = require('../wind/main');
 
   function Cloud() {
     BaseEnemy.call(this, ['AngryCloud.png', 'HappyCloud.png']);
-		//this.scale.x = 0.7;
-		//this.scale.y = 0.7;
-		this.width = this.width - 40;
-		this.height = this.height - 20;
+		this.width = this.width - 50;
+		this.height = this.height - 30;
 		this.killed = false;
     this.vx = 0.8;
 		this.play();

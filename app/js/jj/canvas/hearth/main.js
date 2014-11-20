@@ -5,8 +5,8 @@
 
   function Hearth() {
     BaseEnemy.call(this, ['HearthEnemy1.png', 'HearthEnemy2.png']);
-		this.scale.x = 0.9;
-		this.scale.y = 0.9;
+		this.width = this.width - 30;
+		this.height = this.height - 20;
 		this.killed = false;
     this.vx = 1;
 		this.play();

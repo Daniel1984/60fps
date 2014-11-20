@@ -33,11 +33,21 @@
 
     this.addWelcomeMsg = function() {
       var text = new PIXI.BitmapText(
-        "WELCOME \nTO \nDANNY JUMP",
+        "WELCOME TO\nDANNY JUMP",
         { font: "26px font", align: "center" }
       );
       text.position.x = GO.getWidth() / 2 - text.width / 2;
       text.position.y = text.height;
+      this.addChild(text);
+    };
+
+    this.addInstructionMsg = function() {
+      var text = new PIXI.BitmapText(
+        "Tap or click on sides\nof the screen\nto move Danny",
+        { font: "18px font", align: "center" }
+      );
+      text.position.x = GO.getWidth() / 2 - text.width / 2;
+      text.position.y = GO.getHeight() / 2 - text.height;
       this.addChild(text);
     };
 
@@ -51,6 +61,7 @@
     this.addRamp();
     this.addPlayTxt();
     this.addWelcomeMsg(); 
+		this.addInstructionMsg();
     this.addJimmy();
 
     this.update = function() {
