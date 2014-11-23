@@ -3,20 +3,20 @@
 
   var PIXI = require('pixi.js');
 
-  function MainBg() {
-    var texture = PIXI.Texture.fromFrame("Background.png");
+  function CloudsBackground() {
+    var texture = PIXI.Texture.fromFrame("Background_Clouds.png");
     PIXI.TilingSprite.call(this, texture);
-    this.width = JJ.getWidth();
-    this.height = JJ.getHeight();
+    this.width = GO.getWidth();
+    this.height = GO.getHeight();
   }
 
-  MainBg.prototype = Object.create(PIXI.TilingSprite.prototype);
-  MainBg.prototype.constructor = MainBg;
+  CloudsBackground.prototype = Object.create(PIXI.TilingSprite.prototype);
+  CloudsBackground.prototype.constructor = CloudsBackground;
 
-  MainBg.prototype.update = function() {
+  CloudsBackground.prototype.update = function() {
 
   };
 
-  module.exports = MainBg;
+  module.exports = CloudsBackground;
 
 })();
