@@ -25,7 +25,17 @@
     "node": "0.10.x",
     "npm": "1.4.x"
   },
+	"browser": {
+    "Phaser": "./node_modules/phaser/dist/phaser-no-libs.min.js"
+  },
+	"browserify-shim": {
+    "Phaser": {
+      "exports": "Phaser"
+    }
+  },
   "devDependencies": {
+    "browserify": "^6.3.2",
+    "browserify-shim": "^3.8.0",
     "gulp": "^3.8.8",
     "gulp-browserify": "^0.5.0",
     "gulp-concat": "^2.4.0",
@@ -39,6 +49,7 @@
     "gulp-zip": "^2.0.2",
     "jshint-stylish": "^0.4.0",
     "mithril": "^0.1.21",
+    "phaser": "^2.1.3",
     "pixi.js": "^1.6.1",
     "run-sequence": "^0.3.6",
     "user-agent-parser": "^0.6.0"
