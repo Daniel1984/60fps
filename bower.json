@@ -1,0 +1,17 @@
+{
+  "name": "60fps",
+  "version": "0.0.0",
+  "homepage": "https://github.com/Daniel1984/60fps",
+  "authors": [
+    "daniel1984 <daniel.stenger@yahoo.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

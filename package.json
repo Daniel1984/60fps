@@ -25,15 +25,16 @@
     "node": "0.10.x",
     "npm": "1.4.x"
   },
-	"browser": {
+  "browser": {
     "Phaser": "./node_modules/phaser/dist/phaser-no-libs.min.js"
   },
-	"browserify-shim": {
+  "browserify-shim": {
     "Phaser": {
       "exports": "Phaser"
     }
   },
   "devDependencies": {
+    "bower": "^1.3.12",
     "browserify": "^6.3.2",
     "browserify-shim": "^3.8.0",
     "gulp": "^3.8.8",

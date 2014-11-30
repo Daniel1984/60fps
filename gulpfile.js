@@ -9,7 +9,7 @@ var gulp = require('gulp'),
     sequence = require('run-sequence'),
     less = require('gulp-less'),
     zip = require('gulp-zip'),
-	rev = require('gulp-rev-append'),
+		rev = require('gulp-rev-append'),
     gutil =  require('gulp-util');
 
 var production = gutil.env.type === "production";
@@ -23,11 +23,14 @@ var paths = {
     web_css: './app/less/' + game_name + '/web.less',
     baseJsDir: './app/js/**',
     js: './app/js/**/*.js',
-    css: './app/less/**/*.less'
+    css: './app/less/**/*.less',
+		libs: [
+    	'./bower_components/phaser/build/phaser.js'
+		]
   },
   dest: {
-	base: './public/' + game_name + '/',
-	html: './public/' + game_name + '/index.html',
+		base: './public/' + game_name + '/',
+		html: './public/' + game_name + '/index.html',
     js: './public/' + game_name + '/js',
     css: './public/' + game_name + '/css'
   }
@@ -39,6 +42,13 @@ gulp.task('rev', function() {
     .pipe(gulp.dest(paths.dest.base));
 });
 
+
+gulp.task('copylibs', function () {
+  gulp.src(paths.source.libs)
+    .pipe(uglify({outSourceMaps: false}))
+    .pipe(gulp.dest(paths.dest.js));
+});
+
 gulp.task('canvas_js', function() {
   gulp.src(paths.source.canvas_js)
     .pipe(plumber())
@@ -47,7 +57,6 @@ gulp.task('canvas_js', function() {
     .pipe(gulpif(production, uglify()))
     .pipe(gulp.dest(paths.dest.js));
 });
-
 
 gulp.task('web_js', function() {
   gulp.src(paths.source.web_js)
