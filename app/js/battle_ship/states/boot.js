@@ -11,7 +11,7 @@ module.exports = {
 			console.log('Boot was just loaded', this);
       this.input.maxPointers = 1;
 			this.stage.disableVisibilityChange = false;
-			this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+			this.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
 			this.scale.maxWidth = 1024;
 			this.scale.maxHeight = 768;
 			this.scale.pageAlignHorizontally = true;
