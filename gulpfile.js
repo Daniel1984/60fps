@@ -43,7 +43,7 @@ gulp.task('rev', function() {
 });
 
 
-gulp.task('copylibs', function () {
+gulp.task('copy_libs', function () {
   gulp.src(paths.source.libs)
     .pipe(uglify({outSourceMaps: false}))
     .pipe(gulp.dest(paths.dest.js));

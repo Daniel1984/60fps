@@ -1,6 +1,5 @@
 (function() {
 	'use strict';
-
 	window.onload = function() {
 		window.game = new Phaser.Game(800, 600, Phaser.AUTO);
 		game.state.add('Play', require('./states/play.js'));
