@@ -419,3 +419,6 @@
 {"v":0,"level":50,"name":"newrelic","hostname":"samesystem.local","pid":4856,"time":"2014-12-07T15:36:40.999Z","msg":"Calling analytic_event_data on New Relic failed unexpectedly. Data will be held until it can be submitted:","component":"collector_api","syscall":"read","errno":"ECONNRESET","code":"ECONNRESET"}
 {"v":0,"level":40,"name":"newrelic","hostname":"samesystem.local","pid":4856,"time":"2014-12-07T15:36:40.999Z","msg":"analytics events failed to send; re-sampling"}
 {"v":0,"level":30,"name":"newrelic","hostname":"samesystem.local","pid":4856,"time":"2014-12-07T15:36:40.999Z","msg":"Error on submission to New Relic (data held for redelivery):","syscall":"read","errno":"ECONNRESET","code":"ECONNRESET"}
+{"v":0,"level":30,"name":"newrelic","hostname":"samesystem.local","pid":4856,"time":"2014-12-07T19:31:21.116Z","msg":"Error on submission to New Relic (data held for redelivery):","laterErrors":[{}],"statusCode":503}
+{"v":0,"level":30,"name":"newrelic","hostname":"samesystem.local","pid":4856,"time":"2014-12-07T20:15:21.815Z","msg":"Error on submission to New Relic (data held for redelivery):","laterErrors":[{}],"statusCode":503}
+{"v":0,"level":30,"name":"newrelic","hostname":"samesystem.local","pid":4856,"time":"2014-12-07T20:27:20.921Z","msg":"Error on submission to New Relic (data held for redelivery):","laterErrors":[{}],"statusCode":503}

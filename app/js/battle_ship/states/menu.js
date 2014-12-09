@@ -70,6 +70,7 @@ module.exports = {
 
 		onSinglePlayerClick: function() {
 			console.log('single player clicked');
+		  this.state.start('Singleplayer');
 		},
 
 		onHelpClick: function() {

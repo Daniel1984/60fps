@@ -3,7 +3,7 @@
 	'use strict';
 	window.onload = function() {
 		window.game = new Phaser.Game(800, 600, Phaser.AUTO);
-		game.state.add('Play', require('./states/play.js'));
+		game.state.add('Singleplayer', require('./states/single_player.js'));
 		game.state.add('Preloader', require('./states/preloader.js'));
 		game.state.add('Menu', require('./states/menu.js'));
 		game.state.add('Boot', require('./states/boot.js'));
@@ -12,7 +12,7 @@
 
 })();
 
-},{"./states/boot.js":2,"./states/menu.js":3,"./states/play.js":4,"./states/preloader.js":5}],2:[function(require,module,exports){
+},{"./states/boot.js":2,"./states/menu.js":3,"./states/preloader.js":4,"./states/single_player.js":5}],2:[function(require,module,exports){
 module.exports = {
 
 		preload: function() {
@@ -115,6 +115,7 @@ module.exports = {
 
 		onSinglePlayerClick: function() {
 			console.log('single player clicked');
+		  this.state.start('Singleplayer');
 		},
 
 		onHelpClick: function() {
@@ -127,16 +128,6 @@ module.exports = {
 };
 
 },{}],4:[function(require,module,exports){
-module.exports = {
-    create: function(){
-    //This is just like any other Phaser create function
-    },
-    update: function(){
-    //Game logic goes here
-    },
-};
-
-},{}],5:[function(require,module,exports){
 module.exports = {
 		
 		preload: function() {	
@@ -154,6 +145,10 @@ module.exports = {
 			this.game_name.x = this.world.centerX - this.game_name.width / 2;
 			this.game_name.y = this.game_name.height;
 			
+      // two images below to replace leter with spritesheet
+			this.load.image('see_tile_2', './img/see_tile_2.png');
+			this.load.image('see_tile', './img/sea_tile.jpg');
+
 			this.load.image('land', './img/land.png');
 			this.load.image('machinery', './img/machinery.png');
 			this.load.image('decor', './img/decor.png');
@@ -176,6 +171,22 @@ module.exports = {
     update: function(){
     //Game logic goes here
     }
+};
+
+},{}],5:[function(require,module,exports){
+module.exports = {
+  create: function(){
+    this.addTileBg();
+  },
+
+  addTileBg: function() {
+    game.add.tileSprite(0, 0, this.world.width, this.world.height, 'see_tile');
+  },
+
+  update: function(){
+  //Game logic goes here
+  }
+
 };
 
 },{}]},{},[1])
