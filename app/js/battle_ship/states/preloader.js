@@ -15,8 +15,6 @@ module.exports = {
 			this.game_name.x = this.world.centerX - this.game_name.width / 2;
 			this.game_name.y = this.game_name.height;
 			
-      // two images below to replace leter with spritesheet
-			this.load.image('see_tile_2', './img/see_tile_2.png');
 			this.load.image('see_tile', './img/sea_tile.jpg');
 
 			this.load.image('land', './img/land.png');

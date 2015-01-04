@@ -1,6 +1,7 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 (function() {
 	'use strict';
+
 	window.onload = function() {
 		window.game = new Phaser.Game(800, 600, Phaser.AUTO);
 		game.state.add('Singleplayer', require('./states/single_player.js'));
@@ -145,8 +146,6 @@ module.exports = {
 			this.game_name.x = this.world.centerX - this.game_name.width / 2;
 			this.game_name.y = this.game_name.height;
 			
-      // two images below to replace leter with spritesheet
-			this.load.image('see_tile_2', './img/see_tile_2.png');
 			this.load.image('see_tile', './img/sea_tile.jpg');
 
 			this.load.image('land', './img/land.png');
