@@ -3,7 +3,7 @@ module.exports = {
 		preload: function() {
 			this.load.image('progress_empty', './img/progress_empty.png');
 			this.load.image('progress_fill', './img/progress_fill.png');
-			this.load.image('landing', './img/landing.jpg');
+			this.load.image('landing', './img/graveyard_bg_2.jpg');
 		},	
 
     create: function(){

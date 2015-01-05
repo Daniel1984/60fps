@@ -441,3 +441,6 @@
 {"v":0,"level":50,"name":"newrelic","hostname":"samesystem.local","pid":34788,"time":"2015-01-04T17:11:30.819Z","msg":"Calling analytic_event_data on New Relic failed unexpectedly. Data will be held until it can be submitted:","component":"collector_api","syscall":"read","errno":"ECONNRESET","code":"ECONNRESET"}
 {"v":0,"level":40,"name":"newrelic","hostname":"samesystem.local","pid":34788,"time":"2015-01-04T17:11:30.819Z","msg":"analytics events failed to send; re-sampling"}
 {"v":0,"level":30,"name":"newrelic","hostname":"samesystem.local","pid":34788,"time":"2015-01-04T17:11:30.819Z","msg":"Error on submission to New Relic (data held for redelivery):","syscall":"read","errno":"ECONNRESET","code":"ECONNRESET"}
+{"name":"newrelic","hostname":"Agnes-MacBook-Pro.local","pid":3620,"level":30,"msg":"Starting New Relic for Node.js connection process.","time":"2015-01-05T19:56:35.551Z","v":0}
+{"name":"newrelic","hostname":"Agnes-MacBook-Pro.local","pid":3620,"component":"new_relic_response","level":30,"msg":"Reporting to: https://rpm.newrelic.com/accounts/696708/applications/4144210","time":"2015-01-05T19:56:56.872Z","v":0}
+{"name":"newrelic","hostname":"Agnes-MacBook-Pro.local","pid":3620,"component":"collector_api","level":30,"msg":"Connected to collector-140.newrelic.com:443 with agent run ID 1179163798.","time":"2015-01-05T19:56:56.873Z","v":0}

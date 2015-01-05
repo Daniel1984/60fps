@@ -10,6 +10,7 @@ module.exports = {
 			this.load.image('zombie_6', './img/zombie_6.png');
 			this.load.image('single_zombie_1', './img/single_zombie_1.png');
 			this.load.image('single_zombie_2', './img/single_zombie_2.png');
+			this.load.image('zombie_hand', './img/hand.png');
 			this.load.image('grass_tiles', './img/grass_tiles.png');
 			this.load.bitmapFont('blod_font', './fonts/blood_font.png', './fonts/blood_font.fnt');
 
@@ -36,10 +37,17 @@ module.exports = {
 		onLoadComplete: function() {
 			this.preloader_fill.kill();
 			this.preloader_empty.kill();
+			this.addZombieHand();
       this.addTitle();
       this.addPlayBtn();
-      this.addZombies();
 		},
+
+    addZombieHand: function() {
+			this.zombie_hand = this.add.sprite(this.world.centerX, this.world.height, 'zombie_hand');
+			this.zombie_hand.anchor.setTo(0.5, 0.5);
+			this.zombie_hand.y -= this.zombie_hand.height / 2;	
+      game.add.tween(this.zombie_hand).from({ y: this.world.height + this.zombie_hand.height }, 1000, Phaser.Easing.Bounce.Out, true);
+    },
 
     addTitle: function() {
 			this.game_name = this.add.bitmapText(0, 0, 'blod_font', 'zombie defence', game.device.desktop ? 100 : 60);
@@ -50,6 +58,7 @@ module.exports = {
 
     addPlayBtn: function() {
 			this.play_btn = this.add.bitmapText(0, 0, 'blod_font', 'play', game.device.desktop ? 120 : 70);
+			window.fak = this.play_btn;
 			this.play_btn.x = this.world.centerX - this.play_btn.width / 2;
 			this.play_btn.y = this.world.height - this.play_btn.height * 2;
       game.add.tween(this.play_btn).from( { y: this.world.height + 200 }, 1000, Phaser.Easing.Bounce.Out, true);
@@ -58,25 +67,16 @@ module.exports = {
     },
 
     onPlayBtnClick: function() {
-      this.zombie_1.kill();
       this.play_btn.setText('');
-      game.add.tween(this.zombie_2.scale).to({ x: 100, y: 100 }, 2000, Phaser.Easing.Linear.None, true);
-      game.add.tween(this.zombie_2).to({ alpha: 0 }, 4000, Phaser.Easing.Linear.None, true);
+			this.game_name.setText('');
+			var tween = game.add.tween(this.zombie_hand.scale);
+      tween.to({ x: 2, y: 2 }, 1000, Phaser.Easing.Exponential.In, true);
+			tween.onComplete.addOnce(this.startGame, this);
+			tween.start();
     },
 
-    addZombies: function() {
-      this.zombie_1 = this.add.sprite(this.world.centerX, this.world.centerY, 'single_zombie_1');
-      this.zombie_1.x -= this.zombie_1.width;
-      this.zombie_1.scale.x = this.zombie_1.scale.y = 2;
-      this.zombie_1.anchor.setTo(0.5, 0.5);
-      window.fall = this.zombie_1;
-      this.zombie_2 = this.add.sprite(this.world.centerX, this.world.centerY, 'single_zombie_2');
-      this.zombie_2.x += this.zombie_2.width;
-      this.zombie_2.scale.x = this.zombie_2.scale.y = 2;
-      this.zombie_2.anchor.setTo(0.5, 0.5);
-
-      game.add.tween(this.zombie_1).from({ x: -this.zombie_1.width }, 1000, Phaser.Easing.Bounce.Out, true);
-      game.add.tween(this.zombie_2).from({ x: this.world.width + this.zombie_1.width }, 1000, Phaser.Easing.Bounce.Out, true);
-    },
+		startGame: function() {
+			console.log('starting game');
+		}
 
 };
