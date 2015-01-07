@@ -12,6 +12,7 @@ module.exports = {
 			this.load.image('single_zombie_2', './img/single_zombie_2.png');
 			this.load.image('zombie_hand', './img/hand.png');
 			this.load.image('grass_tiles', './img/grass_tiles.png');	
+			this.load.atlasJSONHash('ui', './img/ui.png', './img/ui.json');
 
       this.addBackground();
       this.addTitle();
@@ -24,7 +25,7 @@ module.exports = {
     },
 
     addTitle: function() {
-			this.game_name = this.add.bitmapText(0, 0, 'blod_font', 'zombie defence', game.device.desktop ? 100 : 60);
+			this.game_name = this.add.bitmapText(0, 0, 'blod_font', 'zombie defence', game.device.desktop ? 100 : 70);
 			this.game_name.x = this.world.centerX - this.game_name.width / 2;
 			this.game_name.y = this.game_name.height;
     },
