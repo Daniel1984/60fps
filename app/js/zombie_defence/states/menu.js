@@ -55,7 +55,7 @@ module.exports = {
 		},
 
 		startGame: function() {
-			alert('coming soon! ;)');
+			this.state.start('Level_1');
 		}
 
 };

@@ -10,11 +10,13 @@ module.exports = {
     create: function(){
       this.input.maxPointers = 1;
 			this.stage.disableVisibilityChange = false;
-			this.scale.scaleMode = Phaser.ScaleManager.RESIZE;
-			this.scale.maxWidth = 1024;
-			this.scale.maxHeight = 768;
+			this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+			//this.scale.maxWidth = 1024;
+			//this.scale.maxHeight = 768;
       this.scale.alignCanvas();
-			this.scale.setScreenSize(true);
+	//		this.scale.pageAlignVertically = true;
+	//		this.scale.pageAlignHorizontally = true;
+			this.scale.setScreenSize();
 			this.input.addPointer();
 			this.stage.backgroundColor = '#000000';
 			this.scale.refresh();
